@@ -1,0 +1,4529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Will You Be My Valentine? 💕</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Italiana&family=Great+Vibes&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wine-red: #722f37;
+            --beige: #f5e6d3;
+            --accent: #ffd700;
+            --dark: #1a1a2e;
+            --light: #fff5f8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cormorant Garamond', serif;
+            overflow: hidden;
+            background: var(--beige);
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .content-container {
+            width: min(1100px, 94vw);
+        }
+
+        .proposal-modal-content,
+        .envelope {
+            width: min(920px, 94vw);
+        }
+
+        .proposal-modal-content {
+            overflow: hidden;
+        }
+
+        /* Fit-to-screen responsiveness (layout adapts to avoid overflow) */
+        @media (max-width: 900px) {
+            .content-container {
+                width: min(980px, 94vw);
+            }
+            .invitation-meta {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .song-body {
+                grid-template-columns: 1fr;
+            }
+            .song-time {
+                text-align: left;
+            }
+        }
+
+        @media (max-height: 820px) {
+            .page {
+                align-items: flex-start;
+                padding-top: 18px;
+            }
+            .content-container {
+                padding: 28px 22px;
+            }
+            .proposal-modal-content,
+            .envelope {
+                padding: 28px 24px;
+            }
+            .proposal-modal-emoji {
+                font-size: 5.5em;
+            }
+            .proposal-modal-question {
+                font-size: clamp(2em, 3.2vw + 0.8em, 3.8em);
+            }
+            .proposal-modal-subtext {
+                font-size: 1.05em;
+                margin: 14px 0 28px;
+            }
+            .invitation-card {
+                width: min(92vw, 82vh);
+                height: min(92vw, 82vh);
+            }
+            .letter {
+                padding: 26px 22px;
+                margin-bottom: 24px;
+            }
+            .letter-body {
+                line-height: 1.75;
+            }
+            .soundtrack-grid {
+                gap: 10px;
+                margin: 20px 0;
+            }
+            .song-card {
+                min-height: 74px;
+                padding: 8px 12px;
+            }
+            .song-cover {
+                width: 58px;
+                height: 58px;
+                flex: 0 0 58px;
+            }
+            .promise-box {
+                padding: 24px;
+                margin: 26px 0;
+            }
+            .promise-box h3 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-height: 720px) {
+            .page-title {
+                font-size: clamp(1.9em, 2.6vw + 0.8em, 3em);
+            }
+            .page-text {
+                font-size: clamp(0.98em, 1vw + 0.6em, 1.3em);
+            }
+            .buttons button {
+                padding: 12px 22px;
+                font-size: 1.05em;
+            }
+            .invitation-title {
+                font-size: clamp(2.6em, 4vw + 0.8em, 4.5em);
+            }
+            .invitation-subtitle {
+                font-size: clamp(0.95em, 1vw + 0.5em, 1.3em);
+            }
+        }
+
+        .invitation-card {
+            max-width: 96vw;
+            max-height: 96vh;
+        }
+
+        /* Romantic zoom note */
+        .zoom-note {
+            position: fixed;
+            inset: 0;
+            background: rgba(26, 12, 16, 0.7);
+            backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.6s ease, visibility 0.6s ease;
+            padding: 20px;
+        }
+
+        .zoom-note.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .zoom-note-card {
+            max-width: 620px;
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255,248,252,0.98), rgba(255,236,240,0.96));
+            border-radius: 22px;
+            padding: 32px 30px;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(114, 47, 55, 0.35);
+            border: 1px solid rgba(114, 47, 55, 0.2);
+        }
+
+        .zoom-note-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3em;
+            color: var(--wine-red);
+            margin-bottom: 12px;
+        }
+
+        .zoom-note-text {
+            font-size: 1.25em;
+            color: #5b3a3f;
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+
+        .zoom-note-btn {
+            background: linear-gradient(135deg, var(--wine-red), #8b3a47);
+            color: white;
+            padding: 14px 36px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            box-shadow: 0 10px 28px rgba(114, 47, 55, 0.35);
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .photo-grid {
+            width: 100%;
+        }
+
+        .buttons {
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .buttons button,
+        .rsvp-btn,
+        .continue-btn {
+            max-width: 100%;
+        }
+
+        /* Fluid typography for all screens */
+        .page-title {
+            font-size: clamp(2.1em, 3vw + 1.2em, 3.6em);
+        }
+
+        .page-text {
+            font-size: clamp(1.05em, 1.2vw + 0.7em, 1.6em);
+        }
+
+        \.proposal-modal-question\ \{\r\n\ \ \ \ \ \ \ \ \ \ \ \ font-size:\ clamp\(2\.4em,\ 4vw\ \+\ 1em,\ 5em\);\r\n\ \ \ \ \ \ \ \ }\r\n\n\ \ \ \ \ \ \ \ \.proposal-name\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ display:\ inline-block;\n\ \ \ \ \ \ \ \ \ \ \ \ font-family:\ 'Great\ Vibes',\ cursive;\n\ \ \ \ \ \ \ \ \ \ \ \ font-weight:\ 700;\n\ \ \ \ \ \ \ \ \ \ \ \ letter-spacing:\ 0\.5px;\n\ \ \ \ \ \ \ \ \ \ \ \ background:\ linear-gradient\(120deg,\ \#ffd86b,\ \#ff4f9a,\ \#fff2b0,\ \#ff6ad5\);\n\ \ \ \ \ \ \ \ \ \ \ \ background-size:\ 200%\ 200%;\n\ \ \ \ \ \ \ \ \ \ \ \ -webkit-background-clip:\ text;\n\ \ \ \ \ \ \ \ \ \ \ \ background-clip:\ text;\n\ \ \ \ \ \ \ \ \ \ \ \ color:\ transparent;\n\ \ \ \ \ \ \ \ \ \ \ \ text-shadow:\ 0\ 0\ 8px\ rgba\(255,\ 215,\ 0,\ 0\.45\),\ 0\ 0\ 18px\ rgba\(255,\ 105,\ 180,\ 0\.35\);\n\ \ \ \ \ \ \ \ \ \ \ \ animation:\ nameGlitter\ 3s\ ease-in-out\ infinite;\n\ \ \ \ \ \ \ \ }\n\n\ \ \ \ \ \ \ \ @keyframes\ nameGlitter\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ 0%\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ background-position:\ 0%\ 50%;\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filter:\ drop-shadow\(0\ 0\ 4px\ rgba\(255,\ 215,\ 0,\ 0\.3\)\);\n\ \ \ \ \ \ \ \ \ \ \ \ }\n\ \ \ \ \ \ \ \ \ \ \ \ 50%\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ background-position:\ 100%\ 50%;\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filter:\ drop-shadow\(0\ 0\ 10px\ rgba\(255,\ 105,\ 180,\ 0\.4\)\);\n\ \ \ \ \ \ \ \ \ \ \ \ }\n\ \ \ \ \ \ \ \ \ \ \ \ 100%\ \{\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ background-position:\ 0%\ 50%;\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ filter:\ drop-shadow\(0\ 0\ 4px\ rgba\(255,\ 215,\ 0,\ 0\.3\)\);\n\ \ \ \ \ \ \ \ \ \ \ \ }\n\ \ \ \ \ \ \ \ }
+        .proposal-modal-subtext {
+            font-size: clamp(1em, 1.2vw + 0.6em, 1.4em);
+        }
+
+        .good-choice-title {
+            font-size: clamp(1.8em, 2.5vw + 1em, 3em);
+        }
+
+        .good-choice-text,
+        .bold-romantic,
+        .teasing-question {
+            font-size: clamp(1em, 1.1vw + 0.6em, 1.4em);
+        }
+
+        .invitation-title {
+            font-size: clamp(3em, 4.5vw + 1em, 6.2em);
+        }
+
+        .invitation-subtitle {
+            font-size: clamp(1em, 1.2vw + 0.6em, 1.7em);
+        }
+
+        .letter-title {
+            font-size: clamp(1.2em, 1.4vw + 0.6em, 1.6em);
+        }
+
+        .letter-body {
+            font-size: clamp(1.05em, 1.2vw + 0.7em, 1.35em);
+        }
+
+        .song-title {
+            font-size: clamp(1em, 1.1vw + 0.6em, 1.2em);
+        }
+
+        .song-timestamp,
+        .fav-time {
+            font-size: clamp(0.9em, 0.9vw + 0.5em, 1.05em);
+        }
+
+        /* ==========================================
+           ROMANTIC ATMOSPHERIC ELEMENTS
+           ========================================== */
+
+        /* Floating Red Hearts - Moving Upward */
+        .floating-heart-bg {
+            position: fixed;
+            font-size: var(--heart-size, 40px);
+            color: #ff1744;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: floatUpSlow var(--duration, 15s) linear infinite;
+            animation-delay: var(--delay, 0s);
+            left: var(--left, 50%);
+        }
+
+        @keyframes floatUpSlow {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.5);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.7;
+            }
+            95% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-150px) translateX(var(--drift, 50px)) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Falling Rose Petals */
+        .rose-petal {
+            position: fixed;
+            background: linear-gradient(135deg, #ff1744, #f50057);
+            border-radius: 50% 0 50% 0;
+            opacity: 0;
+            z-index: 50;
+            pointer-events: none;
+            animation: petalFall var(--fall-duration, 12s) ease-in infinite;
+            animation-delay: var(--fall-delay, 0s);
+            left: var(--petal-left, 50%);
+            transform: rotate(45deg);
+            visibility: hidden;
+        }
+
+        .rose-petal.visible {
+            visibility: visible;
+        }
+
+        @keyframes petalFall {
+            0% {
+                transform: translateY(-50px) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.8;
+            }
+            90% {
+                opacity: 0.4;
+            }
+            100% {
+                transform: translateY(100vh) translateX(var(--sway, 100px)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Calendar Card - February 14 */
+        .calendar-card {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            width: 180px;
+            background: linear-gradient(135deg, #ffffff 0%, #fff8f5 100%);
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(114, 47, 55, 0.35), 0 0 50px rgba(255, 23, 68, 0.15);
+            overflow: hidden;
+            z-index: 100;
+            animation: floatGentle 3.5s ease-in-out infinite;
+            transform: rotate(-5deg);
+            border: 3px solid rgba(114, 47, 55, 0.1);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .calendar-card.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @keyframes floatGentle {
+            0%, 100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+            50% {
+                transform: translateY(-15px) rotate(-3deg);
+            }
+        }
+
+        .calendar-month {
+            background: linear-gradient(135deg, var(--wine-red), #8b3a47);
+            color: white;
+            text-align: center;
+            padding: 14px;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+            font-size: 1.5em;
+            letter-spacing: 3px;
+            text-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        .calendar-date {
+            text-align: center;
+            padding: 28px 16px;
+            background: white;
+        }
+
+        .calendar-day {
+            font-size: 4.5em;
+            font-weight: 900;
+            color: var(--wine-red);
+            font-family: 'Playfair Display', serif;
+            line-height: 1;
+            margin-bottom: 8px;
+            text-shadow: 0 3px 8px rgba(114, 47, 55, 0.15);
+        }
+
+        .calendar-heart {
+            font-size: 2.2em;
+            color: #ff1744;
+            animation: heartPulse 1.4s ease-in-out infinite;
+            filter: drop-shadow(0 2px 5px rgba(255, 23, 68, 0.3));
+        }
+
+        @keyframes heartPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.25); }
+        }
+
+        /* Teddy Bear / Plush Toy */
+        .teddy-bear {
+            position: fixed;
+            bottom: 40px;
+            left: 40px;
+            font-size: 4em;
+            z-index: 100;
+            animation: teddyBob 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.2));
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease 0.2s, visibility 0.8s ease 0.2s;
+        }
+
+        .teddy-bear.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @keyframes teddyBob {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        .teddy-bear:hover {
+            animation: teddyWiggle 0.5s ease;
+        }
+
+        @keyframes teddyWiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        /* Responsive adjustments for calendar and teddy */
+        @media (max-width: 768px) {
+            .calendar-card {
+                width: 150px;
+                top: 20px;
+                right: 20px;
+            }
+            .calendar-month {
+                font-size: 1.2em;
+                padding: 10px;
+                letter-spacing: 2px;
+            }
+            .calendar-day {
+                font-size: 3.5em;
+            }
+            .calendar-heart {
+                font-size: 1.8em;
+            }
+            .teddy-bear {
+                font-size: 3em;
+                bottom: 30px;
+                left: 30px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .calendar-card {
+                width: 130px;
+                top: 15px;
+                right: 15px;
+            }
+            .calendar-month {
+                font-size: 1em;
+                padding: 8px;
+                letter-spacing: 1.5px;
+            }
+            .calendar-day {
+                font-size: 2.8em;
+                padding: 15px 8px;
+                margin-bottom: 4px;
+            }
+            .calendar-heart {
+                font-size: 1.5em;
+            }
+            .teddy-bear {
+                font-size: 2.5em;
+                bottom: 20px;
+                left: 20px;
+            }
+        }
+
+        /* Floating Hearts Background */
+        .heart-float {
+            position: fixed;
+            font-size: 60px;
+            color: #ff1744;
+            opacity: 0.7;
+            animation: floatHeart 15s infinite ease-in-out;
+            z-index: 0;
+            pointer-events: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .heart-with-name {
+            position: relative;
+            display: inline-block;
+        }
+
+        .heart-name {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Great Vibes', cursive;
+            font-size: 0.3em;
+            color: var(--wine-red);
+            opacity: 0.9;
+            white-space: nowrap;
+            font-weight: bold;
+            pointer-events: none;
+        }
+
+        @keyframes floatHeart {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.7; }
+            90% { opacity: 0.7; }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Page Container */
+        .page {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .page.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        /* PAGE 0 - PROPOSAL (No box, beige background, wine red text) */
+        #page0 {
+            background: var(--beige);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Global responsive polish */
+        @media (max-width: 1024px) {
+            .content-container {
+                padding: 48px 36px;
+                border-radius: 28px;
+            }
+            .page-title {
+                font-size: 3em;
+            }
+            .page-text {
+                font-size: 1.4em;
+            }
+            .photo-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            }
+            .proposal-modal-content,
+            .envelope {
+                padding: 36px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content-container {
+                padding: 38px 26px;
+                border-radius: 24px;
+            }
+            .page-title {
+                font-size: 2.6em;
+            }
+            .page-text {
+                font-size: 1.2em;
+            }
+            .buttons button {
+                padding: 14px 28px;
+                font-size: 1.1em;
+            }
+            .proposal-modal-emoji {
+                font-size: 6em;
+            }
+            .proposal-modal-question {
+                font-size: clamp(2.2em, 5vw + 0.6em, 3.6em);
+            }
+            .proposal-modal-subtext {
+                font-size: 1.05em;
+            }
+            .photo-grid {
+                grid-template-columns: 1fr;
+            }
+            .photo-card {
+                max-width: 520px;
+                margin: 0 auto;
+            }
+            .promise-box {
+                padding: 28px;
+            }
+            .promise-box h3 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .content-container {
+                padding: 30px 18px;
+                border-radius: 20px;
+            }
+            .page-title {
+                font-size: 2.2em;
+            }
+            .page-text {
+                font-size: 1.05em;
+            }
+            .buttons {
+                flex-direction: column;
+                gap: 12px;
+            }
+            .buttons button {
+                width: 100%;
+                padding: 12px 22px;
+                font-size: 1.05em;
+            }
+            .proposal-modal-content,
+            .envelope {
+                padding: 26px 16px;
+            }
+            .proposal-modal-emoji {
+                font-size: 4.5em;
+            }
+            .proposal-modal-question {
+                font-size: 2.2em;
+            }
+            .proposal-modal-subtext {
+                font-size: 0.98em;
+            }
+            .calendar-card {
+                transform: scale(0.9);
+                transform-origin: top right;
+            }
+            .teddy-bear {
+                transform: scale(0.9);
+                transform-origin: bottom left;
+            }
+            .letter {
+                padding: 28px 24px;
+            }
+            .letter-body {
+                line-height: 1.8;
+            }
+            .promise-box {
+                padding: 22px;
+            }
+            .promise-box li {
+                font-size: 1.1em;
+            }
+        }
+
+        @media (max-height: 800px) {
+            .page {
+                align-items: flex-start;
+                padding-top: 30px;
+            }
+            .content-container {
+                max-height: calc(100vh - 120px);
+            }
+            .invitation-card {
+                width: min(94vw, 86vh);
+                height: min(94vw, 86vh);
+            }
+        }
+
+        @media (max-height: 700px) {
+            .proposal-modal-content,
+            .envelope {
+                max-height: 85vh;
+            }
+            .invitation-card {
+                width: min(92vw, 78vh);
+                height: min(92vw, 78vh);
+            }
+            .page-title {
+                font-size: clamp(2em, 2.6vw + 0.9em, 3.2em);
+            }
+            .page-text {
+                font-size: clamp(1em, 1vw + 0.6em, 1.4em);
+            }
+        }
+
+        /* Challenge Heading */
+        .envelope-challenge {
+            position: fixed;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 15;
+            animation: slideDown 0.8s ease-out;
+        }
+
+        .challenge-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 3.2em;
+            color: var(--wine-red);
+            margin: 0;
+            text-shadow: 0 4px 12px rgba(114, 47, 55, 0.2);
+        }
+
+        .challenge-subtitle {
+            font-size: 1.3em;
+            color: var(--wine-red);
+            margin-top: 8px;
+            font-style: italic;
+            opacity: 0.9;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        /* Envelopes Field */
+        .envelopes-field {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            padding: 80px 20px 40px;
+        }
+
+        /* Interactive Envelope Card */
+        .envelope-card {
+            width: 280px;
+            height: 200px;
+            background: linear-gradient(135deg, #b8202b 0%, #8b2e38 50%, #6b1f25 100%);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 20px 70px rgba(0, 0, 0, 0.45), 0 8px 25px rgba(0, 0, 0, 0.3), inset -3px -3px 12px rgba(0, 0, 0, 0.25), inset 2px 2px 8px rgba(255, 255, 255, 0.12);
+            position: absolute;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            flex-shrink: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .envelope-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0));
+            pointer-events: none;
+            border-radius: 2px;
+        }
+
+        .envelope-card:hover {
+            transform: translateY(-28px) scale(1.12);
+            box-shadow: 0 35px 100px rgba(114, 47, 55, 0.55), 0 12px 40px rgba(0, 0, 0, 0.45), inset -3px -3px 12px rgba(0, 0, 0, 0.25), inset 2px 2px 8px rgba(255, 255, 255, 0.12);
+        }
+
+        .envelope-card::before {
+            content: '💌';
+            font-size: 6em;
+            position: relative;
+            z-index: 2;
+            opacity: 0.98;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.3));
+        }
+
+        .envelope-card.revealed::before {
+            opacity: 0;
+        }
+
+        .envelope-card.revealed {
+            background: rgba(0, 0, 0, 0.05);
+            pointer-events: none;
+        }
+
+        .envelope-message {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: white;
+            padding: 15px;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+            gap: 8px;
+            border-radius: 8px;
+            z-index: 3;
+        }
+
+        .envelope-card.revealed .envelope-message {
+            display: flex;
+        }
+
+        .message-text {
+            font-size: 0.85em;
+            color: #333;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .message-emoji {
+            font-size: 1.8em;
+        }
+
+        /* Correct Envelope - Full Screen Proposal */
+        .proposal-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 500;
+            opacity: 0;
+            transition: all 0.6s ease;
+            pointer-events: none;
+        }
+
+        .proposal-modal.active {
+            background: rgba(0, 0, 0, 0.6);
+            opacity: 1;
+            pointer-events: auto;
+            display: flex;
+        }
+
+        .proposal-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 920px;
+            background: linear-gradient(135deg, #5a0f16, #722f37);
+            border-radius: 18px;
+            padding: 50px 42px;
+            box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5);
+            border: 3px solid rgba(0, 0, 0, 0.12);
+            color: #fff5f8;
+            animation: popIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+            pointer-events: auto;
+        }
+
+        @keyframes popIn {
+            0% {
+                opacity: 0;
+                transform: scale(0.7) rotateY(-20deg);
+            }
+            100% {
+                opacity: 1;
+                transform: scale(1) rotateY(0deg);
+            }
+        }
+
+        .proposal-modal-content::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 62px solid transparent;
+            border-right: 62px solid transparent;
+            border-bottom: 40px solid #5a0f16;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+        }
+
+        .proposal-modal-body {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .proposal-modal-emoji {
+            font-size: 8em;
+            margin: 30px 0;
+            animation: heartBeat 1.5s ease-in-out infinite;
+        }
+
+        .proposal-modal-question {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5em;
+            color: #fff9fb;
+            margin: 30px 0;
+            text-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+        }
+
+        .proposal-modal-subtext {
+            margin: 20px 0 40px;
+            font-size: 1.4em;
+            color: rgba(255, 245, 248, 0.95);
+            line-height: 1.6;
+            font-style: italic;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            .envelopes-field {
+                padding: 120px 15px 40px;
+            }
+            .envelope-card {
+                width: 220px;
+                height: 160px;
+            }
+            .envelope-card::before {
+                font-size: 4.5em;
+            }
+            .challenge-title {
+                font-size: 2.2em;
+                top: 60px;
+            }
+            .challenge-subtitle {
+                font-size: 1.1em;
+            }
+            .proposal-modal-content {
+                padding: 40px 30px;
+            }
+            .proposal-modal-question {
+                font-size: 3.5em;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .envelopes-field {
+                padding: 140px 10px 30px;
+            }
+            .challenge-title {
+                font-size: 1.7em;
+            }
+            .challenge-subtitle {
+                font-size: 0.9em;
+            }
+            .proposal-modal-content {
+                padding: 28px 18px;
+            }
+            .proposal-modal-question {
+                font-size: 2.3em;
+            }
+            .proposal-modal-subtext {
+                font-size: 1em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .envelopes-field {
+                padding: 140px 10px 30px;
+            }
+            .envelope-card {
+                width: 160px;
+                height: 120px;
+            }
+            .envelope-card::before {
+                font-size: 3.2em;
+            }
+            .challenge-title {
+                font-size: 1.8em;
+                top: 50px;
+            }
+            .challenge-subtitle {
+                font-size: 0.95em;
+            }
+            .proposal-modal-content {
+                padding: 35px 20px;
+                margin: 0 10px;
+            }
+            .proposal-modal-question {
+                font-size: 2.5em;
+            }
+            .proposal-modal-subtext {
+                font-size: 1.1em;
+            }
+            .message-text {
+                font-size: 0.75em;
+            }
+        }
+
+        /* Romantic Envelope for Proposal */
+        .envelope {
+            position: relative;
+            width: 90%;
+            max-width: 920px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, #5a0f16, #722f37);
+            border-radius: 18px;
+            padding: 36px 42px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.45);
+            border: 3px solid rgba(0,0,0,0.12);
+            color: #fff5f8;
+            z-index: 200;
+        }
+
+        .envelope::before {
+            /* flap */
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 62px solid transparent;
+            border-right: 62px solid transparent;
+            border-bottom: 40px solid #5a0f16;
+            border-radius: 4px;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+        }
+
+        .envelope-body {
+            position: relative;
+            z-index: 2;
+        }
+
+        .envelope-stamp {
+            position: absolute;
+            top: 12px;
+            right: 18px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffd966, #ffb84d);
+            color: #6b141a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: 700;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.35);
+            transform: rotate(-12deg);
+            border: 2px solid rgba(0,0,0,0.08);
+            z-index: 250;
+        }
+
+        .envelope .proposal-emoji {
+            filter: drop-shadow(0 6px 18px rgba(0,0,0,0.35));
+        }
+
+        .envelope .proposal-question {
+            color: #fff9fb;
+            text-shadow: 0 4px 14px rgba(0,0,0,0.35);
+        }
+
+        .proposal-subtext {
+            margin-top: 18px;
+            font-size: 1.4em;
+            color: rgba(255,245,248,0.95);
+            max-width: 820px;
+            margin-left: auto;
+            margin-right: auto;
+            line-height: 1.5;
+            font-style: italic;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.25);
+        }
+
+        /* Envelope Sealed Overlay */
+        .envelope-seal-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #5a0f16, #722f37);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 300;
+            transition: opacity 0.8s ease, transform 0.8s ease;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .envelope-seal-overlay.unsealed {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(1.05);
+        }
+
+        .seal-stamp-large {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #ffd966, #ffb84d);
+            color: #6b141a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            font-weight: 700;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+            transform: rotate(-15deg);
+            border: 4px solid rgba(0,0,0,0.1);
+            animation: sealPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes sealPulse {
+            0%, 100% { transform: rotate(-15deg) scale(1); }
+            50% { transform: rotate(-15deg) scale(1.08); }
+        }
+
+        .seal-text {
+            font-size: 1.3em;
+            color: rgba(255,245,248,0.9);
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .envelope-seal-overlay:hover .seal-stamp-large {
+            animation: sealWiggle 0.5s ease;
+        }
+
+        @keyframes sealWiggle {
+            0%, 100% { transform: rotate(-15deg) scale(1.08); }
+            25% { transform: rotate(-20deg) scale(1.08); }
+            75% { transform: rotate(-10deg) scale(1.08); }
+        }
+
+        @media (max-width: 768px) {
+            .envelope { padding: 24px; }
+            .envelope::before { left: 50%; border-left: 48px solid transparent; border-right: 48px solid transparent; border-bottom: 34px solid #5a0f16; }
+            .envelope-stamp { width: 52px; height: 52px; top: 10px; right: 12px; }
+            .seal-stamp-large { width: 90px; height: 90px; font-size: 2.2em; }
+            .seal-text { font-size: 1.1em; }
+        }
+
+        .proposal-emoji {
+            font-size: 8em;
+            margin: 30px 0;
+            animation: heartBeat 1.5s ease-in-out infinite;
+            filter: drop-shadow(0 5px 15px rgba(114, 47, 55, 0.3));
+        }
+
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.2); }
+            28% { transform: scale(1); }
+            42% { transform: scale(1.2); }
+            70% { transform: scale(1); }
+        }
+
+        .proposal-question {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5em;
+            color: var(--wine-red);
+            margin: 40px 0;
+            text-shadow: 0 3px 10px rgba(114, 47, 55, 0.2);
+            animation: gentleGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes gentleGlow {
+            0%, 100% { 
+                text-shadow: 0 3px 10px rgba(114, 47, 55, 0.2);
+            }
+            50% { 
+                text-shadow: 0 5px 20px rgba(114, 47, 55, 0.4);
+            }
+        }
+
+        .buttons {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-top: 60px;
+            flex-wrap: wrap;
+            min-height: auto;
+            position: relative;
+            z-index: 502;
+        }
+
+        button {
+            padding: 25px 70px;
+            font-size: 1.6em;
+            font-weight: bold;
+            font-family: 'Playfair Display', serif;
+            border: none;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            flex-shrink: 0;
+            pointer-events: auto;
+            z-index: 501;
+        }
+
+        .yes-btn {
+            background: linear-gradient(135deg, #722f37, #8b3a47);
+            color: white;
+            border: 3px solid rgba(114, 47, 55, 0.3);
+        }
+
+        .yes-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 12px 40px rgba(114, 47, 55, 0.4);
+        }
+
+        .no-btn {
+            background: linear-gradient(135deg, #8b7355, #6b5644);
+            color: white;
+            border: 3px solid rgba(139, 115, 85, 0.3);
+            transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .no-btn.escaping {
+            animation: wiggle 0.3s ease;
+            position: fixed !important;
+        }
+
+        @keyframes wiggle {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg) scale(0.9); }
+            75% { transform: rotate(10deg) scale(0.9); }
+        }
+
+        .cute-message {
+            position: fixed;
+            background: linear-gradient(135deg, #722f37, #8b3a47);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-size: 1em;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 1000;
+            box-shadow: 0 5px 20px rgba(114, 47, 55, 0.4);
+            animation: floatUpFade 2s ease-out forwards;
+            white-space: nowrap;
+        }
+
+        @keyframes floatUpFade {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(0.5);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-20px) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-40px) scale(0.8);
+            }
+        }
+
+        /* PAGE 1 - INTERMEDIATE "Good Choice Baby" */
+        .good-choice-container {
+            background: linear-gradient(135deg, rgba(255, 240, 245, 0.98), rgba(255, 235, 245, 0.98));
+            backdrop-filter: blur(25px);
+            padding: 80px 60px;
+            border-radius: 50px;
+            box-shadow: 0 40px 100px rgba(114, 47, 55, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            max-width: 750px;
+            width: 100%;
+            text-align: center;
+            border: 4px solid rgba(255, 107, 157, 0.4);
+            position: relative;
+            z-index: 10;
+            animation: containerGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes containerGlow {
+            0%, 100% { 
+                box-shadow: 0 40px 100px rgba(114, 47, 55, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            }
+            50% { 
+                box-shadow: 0 50px 120px rgba(255, 107, 157, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        .good-choice-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 5em;
+            background: linear-gradient(135deg, var(--wine-red), #ff6b9d);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: -6px;
+            line-height: 1;
+            animation: titleShine 2s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(255, 107, 157, 0.3);
+            filter: drop-shadow(0 4px 12px rgba(114, 47, 55, 0.2));
+        }
+
+        @keyframes titleShine {
+            0%, 100% { 
+                transform: scale(1);
+                filter: drop-shadow(0 4px 12px rgba(114, 47, 55, 0.2));
+            }
+            50% { 
+                transform: scale(1.08);
+                filter: drop-shadow(0 8px 20px rgba(255, 107, 157, 0.4));
+            }
+        }
+
+        .good-choice-character {
+            font-size: 6em;
+            margin: 0 0 30px;
+            line-height: 1;
+            animation: characterBounce 2s ease-in-out infinite;
+        }
+
+        .good-choice-character img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        @keyframes characterBounce {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+            }
+            50% { 
+                transform: translateY(-20px) scale(1.1);
+            }
+        }
+
+        .good-choice-text {
+            font-size: 1.6em;
+            color: #333;
+            line-height: 2;
+            margin: 25px 0;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .good-choice-text:first-of-type {
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .good-choice-text:nth-of-type(2) {
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .bold-romantic {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            color: var(--wine-red);
+            font-weight: 700;
+            margin: 40px 0 30px;
+            letter-spacing: 1px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .teasing-question {
+            font-size: 1.7em;
+            color: var(--wine-red);
+            margin: 35px 0 30px;
+            font-style: italic;
+            font-weight: 600;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        @media (max-width: 520px) {
+            .good-choice-container {
+                padding: 34px 22px;
+                border-radius: 28px;
+                max-width: 92vw;
+            }
+            .good-choice-title {
+                font-size: 3.2em;
+                margin-bottom: 12px;
+            }
+            .good-choice-character img {
+                width: 110px !important;
+            }
+            .good-choice-text {
+                font-size: 1.15em;
+                line-height: 1.65;
+                margin: 16px 0;
+            }
+            .bold-romantic {
+                font-size: 1.5em;
+                margin: 22px 0 18px;
+            }
+            .teasing-question {
+                font-size: 1.2em;
+                margin: 18px 0 18px;
+            }
+        }
+
+        @media (max-height: 720px) {
+            .good-choice-container {
+                padding: 28px 20px;
+            }
+            .good-choice-title {
+                font-size: 3em;
+            }
+            .good-choice-text {
+                font-size: 1.1em;
+            }
+        }
+
+        /* Floating hearts background for good choice page */
+        .page#page1 {
+            overflow: hidden;
+        }
+
+        .good-choice-heart-float {
+            position: fixed;
+            font-size: 100px;
+            color: #ff1744;
+            opacity: 0;
+            z-index: 1;
+            pointer-events: none;
+            animation: floatHeartGood 8s linear infinite;
+            text-shadow: 0 0 30px rgba(255, 23, 68, 0.4);
+            filter: drop-shadow(0 8px 20px rgba(255, 23, 68, 0.3));
+        }
+
+        @keyframes floatHeartGood {
+            0% {
+                transform: translateY(100vh) translateX(0) scale(0.8);
+                opacity: 0;
+            }
+            5% {
+                opacity: 0.8;
+            }
+            95% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-100px) translateX(var(--drift, 50px)) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Too Late Modal */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: white;
+            padding: 50px 40px;
+            border-radius: 30px;
+            max-width: 600px;
+            width: 90%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+            animation: slideDown 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        /* Ensure images inside modals are visible and centered */
+        .modal-content img {
+            display: block;
+            margin: 12px auto 18px;
+            max-width: 220px;
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-100px) scale(0.8);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .modal-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3em;
+            color: var(--wine-red);
+            margin-bottom: 30px;
+        }
+
+        .modal-text {
+            font-size: 1.4em;
+            color: #555;
+            line-height: 2;
+            margin: 15px 0;
+        }
+
+        /* PAGE 2 - Invitation Card (Exact Symmetric Heart) */
+        .invitation-card {
+            width: min(96vw, 92vh);
+            height: min(96vw, 92vh);
+            position: relative;
+            margin: 30px auto 40px;
+            display: grid;
+            place-items: center;
+            animation: heartBeatBig 1.2s ease-in-out infinite;
+        }
+
+        @keyframes heartBeatBig {
+            0%, 100% { transform: scale(1); }
+            14% { transform: scale(1.06); }
+            28% { transform: scale(1); }
+        }
+
+        .invitation-heart {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 60px 140px rgba(170, 20, 26, 0.4));
+            z-index: 1;
+        }
+
+
+        .invitation-content {
+            position: relative;
+            z-index: 2;
+            width: 78%;
+            text-align: center;
+            color: white;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4% 2%;
+        }
+
+        .invitation-header {
+            text-align: center;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .invitation-title {
+            font-family: 'Great Vibes', cursive;
+            font-size: 6.2em;
+            color: white;
+            margin: 0;
+            line-height: 0.9;
+            text-shadow: 0 10px 36px rgba(0,0,0,0.28);
+            animation: fadeInDown 1s ease-out;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .invitation-subtitle {
+            font-family: 'Playfair Display', serif;
+            color: rgba(255,255,255,0.95);
+            font-size: 1.7em;
+            margin-top: 10px;
+            opacity: 0.98;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .invitation-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+            margin: 26px 0 30px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .invitation-panel {
+            background: transparent;
+            border-radius: 18px;
+            padding: 6px 8px;
+            box-shadow: none;
+            border: none;
+        }
+
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.25);
+        }
+
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+
+        .detail-icon {
+            font-size: 1.8em;
+            color: #ffe3ea;
+            min-width: 40px;
+            text-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #fff7fb;
+            margin-right: 8px;
+            min-width: 80px;
+            font-size: 1.25em;
+            letter-spacing: 0.5px;
+            text-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+
+        .invitation-note {
+            text-align: center;
+            margin-top: 12px;
+            font-style: italic;
+            color: white;
+            font-size: 1.4em;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 6px 20px rgba(0,0,0,0.25);
+        }
+
+        .rsvp-btn {
+            display: inline-block;
+            margin: 24px auto 0;
+            background: white;
+            color: #ff1744;
+            padding: 22px 56px;
+            border-radius: 50px;
+            font-size: 1.3em;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+        }
+
+        .rsvp-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 18px 50px rgba(0,0,0,0.25);
+        }
+
+        @media (max-width: 760px) {
+            .invitation-content { width: 84%; }
+            .invitation-meta { grid-template-columns: 1fr; }
+            .invitation-title { font-size: 4em; }
+            .invitation-subtitle { font-size: 1.2em; }
+            .invitation-panel { padding: 18px; }
+        }
+
+        @media (max-width: 520px) {
+            .invitation-card { width: min(98vw, 96vh); height: min(98vw, 96vh); }
+            .invitation-content { width: 88%; padding: 6% 3%; }
+            .invitation-title { font-size: 3em; }
+            .invitation-subtitle { font-size: 1em; }
+            .detail-label { font-size: 1.05em; }
+            .rsvp-btn { font-size: 1.1em; padding: 18px 40px; }
+        }
+
+        /* Mobile fallback: switch heart to card layout so content always fits */
+        @media (max-width: 680px) {
+            .invitation-card {
+                width: min(90vw, 560px);
+                height: auto;
+                padding: 20px 16px;
+                border-radius: 26px;
+                background: linear-gradient(135deg, #7a1f2a 0%, #b5283a 55%, #6d1420 100%);
+                box-shadow: 0 30px 80px rgba(114, 47, 55, 0.35);
+                animation: none;
+            }
+            .invitation-heart {
+                display: none;
+            }
+            .invitation-content {
+                width: 100%;
+                height: auto;
+                padding: 0;
+            }
+            .invitation-meta {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 520px) {
+            .invitation-title { font-size: 2.7em; }
+            .invitation-subtitle { font-size: 0.95em; }
+            .invitation-note { font-size: 1.05em; }
+            .rsvp-btn { font-size: 1em; padding: 14px 30px; }
+        }
+
+        @media (max-width: 420px) {
+            .page-title {
+                font-size: 2em;
+                line-height: 1.2;
+            }
+            #page5 .page-title {
+                font-size: 2em;
+            }
+            .letter-title {
+                font-size: 1.2em;
+                line-height: 1.25;
+            }
+            .letter-meta {
+                font-size: 0.85em;
+            }
+            .letter-body {
+                font-size: 1.05em;
+                line-height: 1.65;
+            }
+            .letter-body p:first-letter {
+                font-size: 2.4em;
+                line-height: 1;
+                padding-right: 6px;
+            }
+            .letter-signature {
+                font-size: 1.6em;
+            }
+        }
+
+        /* PAGE 3 - Love Story */
+        .content-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 60px 50px;
+            border-radius: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            max-width: 1100px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            border: 3px solid var(--wine-red);
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5em;
+            color: var(--wine-red);
+            text-align: center;
+            margin-bottom: 40px;
+            font-weight: 900;
+        }
+
+        .page-text {
+            font-size: 1.6em;
+            color: #555;
+            line-height: 1.9;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        /* PAGE 4 - Gift Box Photos */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .photo-card {
+            position: relative;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            aspect-ratio: 3/4;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            background: linear-gradient(135deg, #f5e6d3, #e8d4bf);
+        }
+
+        .photo-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(114, 47, 55, 0.3);
+        }
+
+        .gift-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-size: 4em;
+            color: var(--wine-red);
+            transition: all 0.4s ease;
+        }
+
+        .gift-box-text {
+            font-size: 0.3em;
+            margin-top: 20px;
+            font-family: 'Italiana', serif;
+        }
+
+        .photo-card.revealed .gift-box {
+            display: none;
+        }
+
+        .photo-content {
+            display: none;
+            width: 100%;
+            height: 100%;
+            flex-direction: column;
+        }
+
+        .photo-card.revealed .photo-content {
+            display: flex;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .photo-content img {
+            width: 100%;
+            height: 75%;
+            object-fit: cover;
+        }
+
+        .photo-caption {
+            padding: 15px;
+            background: rgba(114, 47, 55, 0.95);
+            color: white;
+            font-size: 1.1em;
+            text-align: center;
+            height: 25%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* PAGE 5 - Letters (romantic parchment) */
+        #page5 .content-container {
+            background: radial-gradient(circle at top, rgba(255,247,244,0.9), rgba(255,238,232,0.75));
+            border: 1px solid rgba(114,47,55,0.12);
+        }
+
+        #page5 .page-title {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+
+        .letter {
+            background: linear-gradient(180deg, #fff8f0 0%, #fff3e6 100%);
+            border-radius: 26px;
+            padding: 42px 46px;
+            margin-bottom: 36px;
+            box-shadow: 0 18px 50px rgba(114, 47, 55, 0.12);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(transparent 96%, rgba(114,47,55,0.06) 96%),
+                linear-gradient(90deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
+            background-size: 100% 28px, 100% 100%;
+            pointer-events: none;
+        }
+
+        .letter::after {
+            content: '❤';
+            position: absolute;
+            right: 24px;
+            top: 18px;
+            font-size: 2.2em;
+            color: rgba(114,47,55,0.25);
+            transform: rotate(-10deg);
+        }
+
+        .letter-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .letter-title {
+            color: var(--wine-red);
+            font-size: 1.55em;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+        }
+
+        .letter-meta {
+            color: rgba(114,47,55,0.7);
+            font-size: 0.95em;
+            font-style: italic;
+            white-space: nowrap;
+        }
+
+        .letter-body {
+            position: relative;
+            z-index: 2;
+            color: #3c2d2d;
+            font-size: 1.35em;
+            line-height: 1.9;
+            font-style: italic;
+        }
+
+        .letter-body p {
+            margin: 0 0 18px;
+        }
+
+        .letter-body p:last-child {
+            margin-bottom: 0;
+        }
+
+        .letter-body p:first-letter {
+            float: left;
+            font-family: 'Playfair Display', serif;
+            font-size: 3.2em;
+            line-height: 0.9;
+            padding-right: 10px;
+            color: var(--wine-red);
+        }
+
+        .letter-signature {
+            margin-top: 18px;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2em;
+            color: var(--wine-red);
+            text-align: right;
+        }
+
+        .is-hidden {
+            display: none !important;
+        }
+
+        #page5 .book-intro {
+            text-align: center;
+            font-size: 1.3em;
+            color: #6a3b3f;
+            margin-bottom: 26px;
+            line-height: 1.7;
+        }
+
+        .chapter-book {
+            position: relative;
+            display: grid;
+            gap: 24px;
+        }
+
+        .chapter-book::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 16px;
+            bottom: 16px;
+            width: 6px;
+            transform: translateX(-50%);
+            background: linear-gradient(180deg, rgba(114,47,55,0.35), rgba(114,47,55,0.05));
+            border-radius: 6px;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        .chapter-toc,
+        .chapter-reader {
+            position: relative;
+            background: linear-gradient(180deg, #fffdf9 0%, #fff1e6 100%);
+            border-radius: 26px;
+            padding: 30px 32px;
+            border: 1px solid rgba(114,47,55,0.18);
+            box-shadow: 0 20px 60px rgba(114,47,55,0.15);
+            overflow: hidden;
+        }
+
+        .chapter-toc::after,
+        .chapter-reader::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 26px;
+            background: linear-gradient(120deg, rgba(255,255,255,0.6), rgba(255,255,255,0));
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .toc-header {
+            text-align: center;
+        }
+
+        .toc-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--wine-red);
+            font-size: 2.2em;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .toc-subtitle {
+            font-style: italic;
+            color: rgba(114,47,55,0.75);
+            font-size: 1.05em;
+        }
+
+        .toc-list {
+            margin: 26px 0 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .toc-item {
+            border: 1px solid rgba(114,47,55,0.2);
+            background: rgba(114,47,55,0.08);
+            color: var(--wine-red);
+            text-align: left;
+            padding: 14px 18px;
+            border-radius: 14px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.05em;
+            cursor: pointer;
+            transition: transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        .toc-item.unlocked:hover {
+            transform: translateX(6px);
+            background: rgba(114,47,55,0.16);
+            box-shadow: 0 12px 26px rgba(114,47,55,0.15);
+        }
+
+        .toc-item.active {
+            background: rgba(114,47,55,0.22);
+            border-color: rgba(114,47,55,0.35);
+        }
+
+        .toc-item.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .toc-footer {
+            text-align: center;
+            display: grid;
+            gap: 12px;
+        }
+
+        .book-start-btn {
+            background: linear-gradient(135deg, var(--wine-red), #8b3a47);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 999px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1em;
+            cursor: pointer;
+            box-shadow: 0 12px 30px rgba(114,47,55,0.25);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .book-start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 32px rgba(114,47,55,0.3);
+        }
+
+        .toc-note {
+            font-size: 0.95em;
+            color: rgba(114,47,55,0.7);
+            font-style: italic;
+        }
+
+        .chapter-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-bottom: 18px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .chapter-progress {
+            font-family: 'Playfair Display', serif;
+            color: var(--wine-red);
+            font-size: 1.1em;
+        }
+
+        .chapter-back-btn {
+            background: transparent;
+            border: 1px solid rgba(114,47,55,0.4);
+            color: var(--wine-red);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-family: 'Playfair Display', serif;
+            cursor: pointer;
+            transition: background 0.25s ease, color 0.25s ease;
+        }
+
+        .chapter-back-btn:hover {
+            background: rgba(114,47,55,0.1);
+        }
+
+        .chapter-pages .letter {
+            margin-bottom: 0;
+        }
+
+        .chapter-panel {
+            display: none;
+        }
+
+        .chapter-panel.active {
+            display: block;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .chapter-panel.turning {
+            animation: pageTurn 0.6s ease;
+            transform-origin: left center;
+        }
+
+        .chapter-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .chapter-nav-btn {
+            background: rgba(114,47,55,0.1);
+            border: 1px solid rgba(114,47,55,0.35);
+            color: var(--wine-red);
+            padding: 10px 22px;
+            border-radius: 999px;
+            font-family: 'Playfair Display', serif;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+
+        .chapter-nav-btn.primary {
+            background: linear-gradient(135deg, var(--wine-red), #8b3a47);
+            color: white;
+            border-color: transparent;
+        }
+
+        .chapter-nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .chapter-nav-btn:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 26px rgba(114,47,55,0.2);
+        }
+
+        .chapter-complete {
+            margin-top: 22px;
+            background: rgba(114,47,55,0.08);
+            border-radius: 18px;
+            padding: 18px 20px;
+            text-align: center;
+            color: #5b3a3f;
+            display: none;
+        }
+
+        .chapter-complete.show {
+            display: block;
+        }
+
+        .chapter-complete-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4em;
+            color: var(--wine-red);
+            margin-bottom: 6px;
+        }
+
+        #lettersContinueBtn {
+            display: none;
+            margin-top: 28px;
+        }
+
+        #lettersContinueBtn.show {
+            display: inline-flex;
+        }
+
+        @media (max-width: 720px) {
+            .chapter-book::before {
+                display: none;
+            }
+            .chapter-toc,
+            .chapter-reader {
+                padding: 24px 22px;
+            }
+            .chapter-controls {
+                flex-direction: column;
+            }
+            .chapter-nav-btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .chapter-toolbar {
+                flex-direction: column;
+            }
+        }
+
+        @keyframes pageTurn {
+            0% {
+                transform: perspective(1200px) rotateY(0deg);
+                opacity: 0.4;
+            }
+            40% {
+                transform: perspective(1200px) rotateY(-12deg);
+                opacity: 1;
+            }
+            100% {
+                transform: perspective(1200px) rotateY(0deg);
+                opacity: 1;
+            }
+        }
+
+        /* PAGE 6 - Our Soundtrack (Romantic card style scoped to #page6) */
+        #page6 .content-container {
+            background: linear-gradient(180deg, rgba(255,248,250,0.6), rgba(255,244,238,0.6));
+            padding: 36px;
+            border-radius: 18px;
+            box-shadow: 0 30px 80px rgba(114, 47, 55, 0.06);
+        }
+
+        #page6 .page-title {
+            font-size: 2.4em;
+            color: var(--wine-red);
+            letter-spacing: 1px;
+            text-shadow: 0 6px 20px rgba(114,47,55,0.12);
+            margin-bottom: 6px;
+        }
+
+        .soundtrack-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            background: rgba(114, 47, 55, 0.08);
+            border-radius: 14px;
+            padding: 10px 16px;
+            margin: 14px 0 18px;
+            color: var(--wine-red);
+            font-family: 'Playfair Display', serif;
+            letter-spacing: 0.5px;
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+        }
+
+        .soundtrack-header .header-left {
+            font-weight: 700;
+        }
+
+        .soundtrack-header .header-right {
+            font-size: 0.95em;
+            opacity: 0.85;
+        }
+
+        .soundtrack-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            margin: 30px 0 24px;
+        }
+
+        /* Spotify-style horizontal bar (full color) */
+        .song-card {
+            background: linear-gradient(135deg, var(--song-color, #7a3a3a), #4a1e22);
+            border-radius: 16px;
+            padding: 10px 16px;
+            box-shadow: 0 18px 40px rgba(114, 47, 55, 0.18), inset 0 1px 0 rgba(255,255,255,0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: default;
+            border: none;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            min-height: 90px;
+            color: #fff7fb;
+        }
+
+        .song-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 26px 60px rgba(114, 47, 55, 0.24);
+        }
+
+        .song-cover {
+            width: 72px;
+            height: 72px;
+            border-radius: 12px;
+            object-fit: cover;
+            box-shadow: 0 10px 26px rgba(0,0,0,0.2);
+            display: block;
+            position: relative;
+            flex: 0 0 72px;
+        }
+
+        /* Play overlay */
+        .cover-wrap {
+            position: relative;
+            display: block;
+        }
+
+        .song-body {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .song-main {
+            min-width: 0;
+        }
+
+        .song-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .fav-progress {
+            flex: 1 1 auto;
+            height: 6px;
+            background: rgba(255,255,255,0.22);
+            border-radius: 6px;
+            position: relative;
+            overflow: hidden;
+            max-width: 260px;
+        }
+
+        .fav-progress-bar {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+            border-radius: 6px;
+        }
+
+        .song-time {
+            text-align: right;
+            min-width: 64px;
+        }
+
+        .song-time-label {
+            font-size: 0.8em;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.7);
+            margin-bottom: 6px;
+        }
+
+        .fav-time {
+            font-size: 1.05em;
+            color: #fff7fb;
+            white-space: nowrap;
+        }
+
+        @media (max-width: 640px) {
+            .song-card { flex-direction: row; }
+            .song-body { grid-template-columns: 1fr; }
+            .song-time { text-align: left; }
+        }
+
+        @media (max-width: 520px) {
+            .soundtrack-grid { gap: 12px; }
+            .song-card { padding: 10px 12px; min-height: 78px; }
+            .song-cover { width: 60px; height: 60px; flex: 0 0 60px; }
+            .song-title { font-size: 1.05em; }
+            .song-timestamp { font-size: 0.9em; }
+            .fav-progress { max-width: 180px; }
+        }
+
+        .song-meta {
+            padding: 2px 0 0 0;
+        }
+
+        .song-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.15em;
+            color: #fff7fb;
+            margin: 0 0 4px;
+            font-weight: 700;
+        }
+
+        .song-artist {
+            font-size: 0.95em;
+            color: rgba(255,255,255,0.82);
+            margin-bottom: 6px;
+        }
+
+        .song-timestamp {
+            font-size: 0.95em;
+            color: rgba(255,255,255,0.85);
+            font-style: italic;
+        }
+
+        /* floating tiny hearts background accents */
+        #page6 .heart-accent {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.08;
+            font-size: 4em;
+            filter: blur(1px);
+        }
+
+        /* PAGE 7 - Final */
+        .promise-box {
+            background: linear-gradient(135deg, rgba(245, 230, 211, 0.8), rgba(255, 248, 225, 0.8));
+            border: 3px solid var(--wine-red);
+            border-radius: 25px;
+            padding: 40px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .promise-box h3 {
+            font-family: 'Playfair Display', serif;
+            color: var(--wine-red);
+            font-size: 2.5em;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .promise-box ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .promise-box li {
+            padding: 12px 0;
+            font-size: 1.3em;
+            color: #555;
+            transition: all 0.3s ease;
+            border-bottom: 1px solid rgba(114, 47, 55, 0.2);
+        }
+
+        .promise-box li:hover {
+            transform: translateX(10px);
+            color: var(--wine-red);
+        }
+
+        .promise-box li::before {
+            content: '✨ ';
+            margin-right: 15px;
+        }
+
+        /* Continue Button */
+        .continue-btn {
+            background: linear-gradient(135deg, var(--wine-red), #8b3a47);
+            color: white;
+            padding: 22px 60px;
+            font-size: 1.5em;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(114, 47, 55, 0.3);
+            transition: all 0.4s ease;
+            margin: 30px auto;
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-weight: bold;
+        }
+
+        .continue-btn:hover {
+            transform: translateY(-8px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(114, 47, 55, 0.5);
+        }
+
+        /* Navigation Dots */
+        .nav-dots {
+            position: fixed;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 100;
+            display: none;
+        }
+
+        .nav-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: rgba(114, 47, 55, 0.3);
+            margin: 18px 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--wine-red);
+        }
+
+        .nav-dot:hover {
+            transform: scale(1.3);
+            background: rgba(114, 47, 55, 0.6);
+        }
+
+        .nav-dot.active {
+            background: var(--wine-red);
+            transform: scale(1.5);
+        }
+
+        /* Scrollbar */
+        .content-container::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .content-container::-webkit-scrollbar-track {
+            background: rgba(114, 47, 55, 0.1);
+            border-radius: 10px;
+        }
+
+        .content-container::-webkit-scrollbar-thumb {
+            background: var(--wine-red);
+            border-radius: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .proposal-question { font-size: 3em; }
+            button { 
+                padding: 18px 40px; 
+                font-size: 1.3em; 
+                min-width: 120px;
+            }
+            .buttons {
+                gap: 20px;
+                padding: 0 10px;
+            }
+            .page-title { font-size: 2.5em; }
+            .photo-grid { grid-template-columns: 1fr; }
+            .soundtrack-grid { grid-template-columns: 1fr; }
+            .nav-dots { right: 15px; }
+            .good-choice-title { font-size: 2.5em; }
+            .modal-title { font-size: 2em; }
+            .heart-float { font-size: 40px; }
+            .heart-name { font-size: 0.25em; }
+        }
+
+        @media (max-width: 480px) {
+            .proposal-question { font-size: 2.2em; }
+            button { 
+                padding: 15px 30px; 
+                font-size: 1.1em;
+            }
+            .buttons {
+                gap: 15px;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .buttons button {
+                width: 100%;
+                max-width: 250px;
+            }
+            .page-title { font-size: 2em; }
+            .good-choice-title { font-size: 2em; }
+            .good-choice-text { font-size: 1.3em; }
+            .modal-content { padding: 30px 20px; }
+            .heart-float { font-size: 35px; }
+        }
+
+        @media (min-width: 1200px) {
+            .proposal-question { font-size: 6em; }
+            .page-title { font-size: 4em; }
+        }
+
+        /* Loading */
+        .loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--beige);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeOut 1s ease 2s forwards;
+        }
+
+        .loader-heart {
+            font-size: 8em;
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        @keyframes fadeOut {
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+
+        /* Hide Audio Player */
+        #bgMusic {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            width: 0 !important;
+            position: absolute !important;
+            left: -10000px !important;
+            top: -10000px !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            border: 0 !important;
+            padding: 0 !important;
+            margin: 0 !important;
+            min-width: 0 !important;
+            min-height: 0 !important;
+            max-width: 0 !important;
+            max-height: 0 !important;
+        }
+
+        audio {
+            display: none !important;
+            visibility: hidden !important;
+            height: 0 !important;
+            width: 0 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader">
+        <div class="loader-heart">💖</div>
+    </div>
+
+    <!-- Floating Hearts Background -->
+    <div id="heartsContainer"></div>
+
+    <!-- Atmospheric Elements -->
+    <div id="floatingHeartsContainer"></div>
+    <div class="zoom-note" id="zoomNote">
+        <div class="zoom-note-card">
+            <div class="zoom-note-title">A Small Note</div>
+            <div class="zoom-note-text">
+                Baby please set your browser zoom to <strong>50%</strong>
+                and if you’re on your phone switch to desktop mode
+            </div>
+            <button class="zoom-note-btn" onclick="dismissZoomNote()">I’m ready</button>
+        </div>
+    </div>
+    <div id="rosePetalsContainer"></div>
+
+    <!-- Navigation Dots -->
+    <div class="nav-dots" id="navDots"></div>
+
+    <!-- Music (Hidden - No Controls) -->
+    <audio id="bgMusic" loop preload="none" style="display: none !important; visibility: hidden !important; position: absolute !important; left: -10000px !important; top: -10000px !important; width: 0 !important; height: 0 !important; border: none !important; padding: 0 !important; margin: 0 !important;">
+        <source src="our-song.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- Page 0: Proposal - Find the Correct Envelope Game -->
+    <div class="page active" id="page0">
+        <!-- Calendar Card - February 14 -->
+        <div class="calendar-card">
+            <div class="calendar-month">FEB</div>
+            <div class="calendar-date">
+                <div class="calendar-day">14</div>
+                <div class="calendar-heart">💕</div>
+            </div>
+        </div>
+
+        <!-- Teddy Bear -->
+        <div class="teddy-bear" title="A warm hug for you! 🧸">
+            🧸💝
+        </div>
+
+        <!-- Challenge Text -->
+        <div class="envelope-challenge">
+            <div class="challenge-title">Find My Love Letter 💌</div>
+            <div class="challenge-subtitle">Can you find the right envelope? Choose wisely... 😉</div>
+        </div>
+
+        <!-- Scattered Envelopes Container -->
+        <div class="envelopes-field" id="envelopesField">
+            <!-- Envelopes will be generated by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Proposal Modal (Shown when correct envelope is found) -->
+    <div class="proposal-modal" id="proposalModal">
+        <div class="proposal-modal-content">
+            <div class="proposal-modal-body">
+                <div class="proposal-modal-emoji">💝</div>
+                <div class="proposal-modal-question">Will you be my Valentine?</div>
+                <div class="proposal-modal-subtext">If momos make you crave and my tongue makes you wet...are you in?</div>
+                <div class="buttons" id="buttonContainer">
+                    <button class="yes-btn" id="yesBtn" onclick="handleYes(); return false;">Yes! 💕</button>
+                    <button class="no-btn" id="noBtn" onclick="handleNo(); return false;">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 1: Good Choice Baby (Intermediate page) -->
+    <div class="page" id="page1">
+        <div class="good-choice-container">
+            <div class="good-choice-title">Good Choice Baby 😌</div>
+            <div class="good-choice-character"><img src="Emoji.jpg" alt="Happy character" style="width: 150px; height: auto;"></div>
+            <div class="good-choice-text">
+            You just unlocked unlimited hugs, kisses and my saliva
+                <br>
+                (redeemable very soon... I promise 😌)
+            </div>
+            <div class="good-choice-text">
+                Plus free access to my heart, my time, and all the little things I do just for you 💕
+            </div>
+            <div class="bold-romantic">
+                Now you’re stuck with me forever.
+            </div>
+            <div class="teasing-question">
+                Wait… do you want to change your mind?
+            </div>
+            <div class="buttons">
+                <button class="yes-btn" onclick="showTooLate()">YES</button>
+                <button class="no-btn-static" onclick="showThatsMyGirl()" style="background: linear-gradient(135deg, #722f37, #8b3a47); color: white; padding: 20px 60px; font-size: 1.4em; border: none; border-radius: 50px; cursor: pointer;">NO</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Too Late Modal -->
+    <div class="modal" id="tooLateModal">
+        <div class="modal-content">
+            <div class="modal-title">Too late shona!</div>
+            <div style="margin: 20px 0;"><img src="Emoji_2.jpg" alt="Teasing emoji" style="width: 120px; height: auto;"></div>
+            <div class="modal-text">You have already said yes which means:</div>
+            <div class="modal-text">✨ No take-backs allowed</div>
+            <div class="modal-text">💍 You are legally mine which we can't expose outside😌</div>
+            <div class="modal-text">💋 Every 'no' from now on = 69 extra kisses when we meet</div>
+            <button class="continue-btn" onclick="closeTooLate()">Continue to Our Special Day ❤️</button>
+        </div>
+    </div>
+
+    <!-- That's My Girl Modal -->
+    <div class="modal" id="thatsMyGirlModal">
+        <div class="modal-content">
+            <div class="modal-title">That's my girl 😌</div>
+            <div style="margin: 20px 0;"><img src="Emoji_3.jpg" alt="Confident emoji" style="width: 120px; height: auto;"></div>
+            <div class="modal-text">I knew you wouldn't even think twice.</div>
+            <div class="modal-text" style="margin-top: 20px;">
+                Confidence looks really good on you.
+            </div>
+            <div class="modal-text" style="font-style: italic; margin-top: 20px;">
+                And now… there's no escape anyway 💋
+            </div>
+            <button class="continue-btn" onclick="closeThatsMyGirl()">Continue ❤️</button>
+        </div>
+    </div>
+
+    <!-- Page 2: Invitation Card -->
+    <div class="page" id="page2">
+        <div class="invitation-card">
+            <svg class="invitation-heart" viewBox="0 0 512 512" aria-hidden="true">
+                <defs>
+                    <linearGradient id="heartFill" x1="0" y1="0" x2="1" y2="1">
+                        <stop offset="0%" stop-color="#ff3b3f"/>
+                        <stop offset="45%" stop-color="#e31b23"/>
+                        <stop offset="100%" stop-color="#b30d1b"/>
+                    </linearGradient>
+                    <radialGradient id="heartGlow" cx="30%" cy="25%" r="70%">
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+                        <stop offset="45%" stop-color="#ffffff" stop-opacity="0.2"/>
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                    </radialGradient>
+                    <filter id="softGlow" x="-30%" y="-30%" width="160%" height="160%">
+                        <feGaussianBlur in="SourceGraphic" stdDeviation="6" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                    <radialGradient id="sparkle" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+                        <stop offset="45%" stop-color="#fff2f6" stop-opacity="0.9"/>
+                        <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+                    </radialGradient>
+                </defs>
+                <path d="M462.3 62.6c-54.5-46.4-136-38.3-186.4 13.7L256 96.5l-19.9-20.2C185.7 24.3 104.2 16.2 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.2l193.5 199.8a31.8 31.8 0 0 0 45.4 0l193.5-199.8c56.2-57.4 52.9-153.6-9.9-207.2z" fill="url(#heartFill)" />
+                <path d="M256 110c-34-54-116-72-168-28-46 38-50 111-10 152l178 184 178-184c40-41 36-114-10-152-52-44-134-26-168 28z" fill="url(#heartGlow)" opacity="0.45"/>
+                <ellipse cx="365" cy="150" rx="78" ry="120" fill="#ffffff" fill-opacity="0.25" transform="rotate(20 365 150)"/>
+                <g filter="url(#softGlow)">
+                    <circle cx="140" cy="120" r="10" fill="url(#sparkle)"/>
+                    <circle cx="370" cy="95" r="14" fill="url(#sparkle)"/>
+                    <circle cx="430" cy="210" r="9" fill="url(#sparkle)"/>
+                    <circle cx="90" cy="245" r="8" fill="url(#sparkle)"/>
+                    <circle cx="395" cy="320" r="10" fill="url(#sparkle)"/>
+                    <circle cx="195" cy="380" r="8" fill="url(#sparkle)"/>
+                </g>
+            </svg>
+
+            <div class="invitation-content">
+                <div class="invitation-header">
+                    <h1 class="invitation-title">Reserved for Us</h1>
+                    <div class="invitation-subtitle">An evening that promises a wild and unforgettable makeout</div>
+                </div>
+
+                <div class="invitation-meta">
+                    <div class="invitation-panel">
+                        <div class="detail-item"><div class="detail-icon">📅</div><div><span class="detail-label">Date</span><div>February 14, 2026</div></div></div>
+                        <div class="detail-item"><div class="detail-icon">⏰</div><div><span class="detail-label">Time</span><div>To be mentioned later</div></div></div>
+                    </div>
+                    <div class="invitation-panel">
+                        <div class="detail-item"><div class="detail-icon">📍</div><div><span class="detail-label">Place</span><div>To be mentioned later</div></div></div>
+                        <div class="detail-item"><div class="detail-icon">👗</div><div><span class="detail-label">Dress</span><div>I’ll trust your choice more than mine</div></div></div>
+                    </div>
+                </div>
+
+                <div class="invitation-note">I can’t wait for all the ways you’ll distract me.</div>
+
+                <div style="text-align:center; margin-top: 28px;">
+                    <button class="rsvp-btn" onclick="nextPage()">Continue Our Journey 💖</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page 3: Love Story -->
+    <div class="page" id="page3">
+        <div class="content-container">
+            <div class="page-title">💖 Our Story Begins 💖</div>
+            <div class="page-text">
+                From the moment I met you, my heart recognized you. The way you think, the way you talk, the way you exist beside me. Honestly I never get tired of and it all feels rare. Afterall my baby is actually pretty rare. Every moment with you feels like love growing naturally and being with you feels like home.
+                <br><br>
+                Every second turns into a minute, every minute into an hour and somewhere in between I keep falling for you again and again
+                <br><br>
+                This is just the beginning of our beautiful journey together...
+            </div>
+            <button class="continue-btn" onclick="nextPage()">Unlock Our Memories 🎁</button>
+        </div>
+    </div>
+
+    <!-- Page 4: Gift Box Memories -->
+    <div class="page" id="page4">
+        <div class="content-container">
+            <div class="page-title">🎁 Unlock Our Precious Moments 🎁</div>
+            <div class="page-text">Click each gift to reveal a special memory...</div>
+            <div class="photo-grid">
+                <div class="photo-card" onclick="revealPhoto(this, 0)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_44__2_.jpeg" alt="Memory">
+                        <div class="photo-caption">Our first photo together 💕</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 1)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_44__1_.jpeg" alt="Memory">
+                        <div class="photo-caption"> I’m obsessed with how you smell 🥰</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 2)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_44.jpeg" alt="Memory">
+                        <div class="photo-caption">You redefine the word sexy 😍</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 3)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_43__2_.jpeg" alt="Memory">
+                        <div class="photo-caption">Damnnn your hair looks so fucking hot 💖</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 4)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_43__1_.jpeg" alt="Memory">
+                        <div class="photo-caption"> U remember about that day!🌟</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 5)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_43.jpeg" alt="Memory">
+                        <div class="photo-caption"> Seeing you in a saree for the first time felt so special..I couldn’t take my eyes off you 💙</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 6)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_42__2_.jpeg" alt="Memory">
+                        <div class="photo-caption">Matching color outfits💖</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 7)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_42__1_.jpeg" alt="Memory">
+                        <div class="photo-caption">We both look nice together..don't we? 💫</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 8)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_42.jpeg" alt="Memory">
+                        <div class="photo-caption"> My Favvvvvv frame 🌼</div>
+                    </div>
+                </div>
+                <div class="photo-card" onclick="revealPhoto(this, 9)">
+                    <div class="gift-box">
+                        🎁
+                        <div class="gift-box-text">Click to Open</div>
+                    </div>
+                    <div class="photo-content">
+                        <img src="WhatsApp_Image_2026-01-30_at_17_02_41.jpeg" alt="Memory">
+                        <div class="photo-caption">This photo really turned me on ✨</div>
+                    </div>
+                </div>
+            </div>
+            <button class="continue-btn" onclick="nextPage()">Read My Letters 💌</button>
+        </div>
+    </div>
+
+    <!-- Page 5: Love Letters -->
+    <div class="page" id="page5">
+        <div class="content-container">
+            <div class="page-title"> From My Heart To Yours </div>
+
+            <div class="book-intro">Turn each page to feel every moment I put into this for you</div>
+
+            <div class="chapter-book" id="chapterBook">
+                <div class="chapter-toc" id="chapterToc">
+                    <div class="toc-header">
+                        <div class="toc-title">Chapters Of Us</div>                    </div>
+                    <div class="toc-list">
+                        <button class="toc-item unlocked" data-chapter="0">Chapter 1 </button>
+                        <button class="toc-item locked" data-chapter="1" disabled>Chapter 2 </button>
+                        <button class="toc-item locked" data-chapter="2" disabled>Chapter 3 </button>
+                        <button class="toc-item locked" data-chapter="3" disabled>Chapter 4 </button>
+                    </div>
+                    <div class="toc-footer">
+                        <button class="book-start-btn" id="startChaptersBtn">Begin Chapter 1</button>
+                        <div class="toc-note">Turn the page to start our story.</div>
+                    </div>
+                </div>
+
+                <div class="chapter-reader is-hidden" id="chapterReader">
+                    <div class="chapter-toolbar">
+                        <div class="chapter-progress">Chapter <span id="chapterCurrent">1</span> of <span id="chapterTotal">4</span></div>
+                        <button class="chapter-back-btn" id="backToTocBtn">Chapter List</button>
+                    </div>
+                    <div class="chapter-pages">
+                        <div class="letter chapter-panel" data-chapter="0">
+                            <div class="letter-head">
+                                <div class="letter-title">Chapter 1 — The Day I Met You</div>
+                                <div class="letter-meta">The Day My Heart Changed</div>
+                            </div>
+                            <div class="letter-body">
+                                <p>It was 4th December 2025</p>
+                                <p>I still remember the very first moment I saw you.</p>
+                                <p>You were wearing a white sweater, blue jeans, and white sneakers. I was excited because we barely knew each other. We had not talked much. We were literally two random people meeting for the first time, knowing almost nothing about each other. You did not even know my name back then.Honestly… I missed a chance. I should have kidnapped you that day.</p>
+                                <p>The first thing you said was “Hii… kokhon escho? Cab dekhle?” and you smiled. That smile did something to me. I felt it instantly, like something inside me shifted without asking permission. Your hair was still wet. You said you did not get time to dry it, and for some reason, that tiny detail stayed with me.</p>
+                                <p>That was the moment I understood what people mean by love at first sight.I never believed in it before. Until you.</p>
+                                <p>We booked a cab and I was not talking much at first. I was listening. Feeling. And without even trying you made me comfortable. Being around you felt easy, like I did not need to pretend or impress. I could just be myself.We watched a movie and afterward we were completely confused about where to go. Then you said “Romaania jabe ?” so I said "Choooooo". We reached . You talked about your life, your stories, your world. I listened like I always do, but this time it felt different. You didn not really look into my eyes while talking, yet I couldn not stop looking at you. Your eyes are beautiful not just to see, but to feel.</p>
+                                <p>Then we got cab to go home and somehow time disappeared. Your didi even did a video call in the cab just to check if her pretty, little, brainless sister was still alive or not.</p>
+                                <p>Nine hours passed without us even realising it...no awkwardness, no hesitation, just comfort, conversation, and something quietly forming between us, something that felt natural from the very start. That day did not feel like a beginning at all it felt like something that was always meant to happen.</p>
+                                <p>And even now when I think about it I do not just remember the moments. I remember the feeling. The calm. The warmth. The way you slowly started to feel like home.</p>
+                            </div>
+                            <div class="letter-signature">Forever, Me</div>
+                        </div>
+
+                        <div class="letter chapter-panel" data-chapter="1">
+                            <div class="letter-head">
+                                <div class="letter-title">Chapter 2 — The Night We Crossed the Line</div>
+                                <div class="letter-meta">The First of Everything</div>
+                            </div>
+                            <div class="letter-body">
+                                <p>I'm sitting here thinking back to that night which was on 29th December returning in the cab with the Christmas lights all around , but all I can actually see is you in that red dress. Godddddddddddd you looked breathtaking . The way it hugged your body, showing just enough of your skin to make my head spin. I spent the whole ride wanting to reach over and rip it off you, to feel what was underneath.</p>
+                                <p>I remember watching your chest rise and fall against that red fabric, knowing exactly what I was about to do to you. When I finally moved, I did not just touch you. I hooked my hand around the back of your neck and forced you toward me. I wanted you to feel how much I was losing control. When my mouth hit yours, it was hard and wet. I wanted the taste of your saliva, the slick, the slide of your tongue against mine . I was not trying to be sweet. I was trying to claim you.</p>
+                                <p>I moved down to your throat, my teeth sinking into that soft spot right below your ear. I wanted to hear you whimper. I wanted to leave a mark you would have to hide the next day. I trailed my tongue down, slow and heavy, right into your cleavage. I could smell the heat coming off you, that mix of your smell and the dampness starting to pool between your breasts.</p>
+                                <p>I reached down and filled my hands with you. I remember the weight of your tits in my palms, squeezing them through the dress, feeling your nipples go rock hard against my hands. I wanted to feel how much you wanted me. I pressed you back into the seat, my hands exploring every curve of that dress, every bit of skin I could get to.</p>
+                                <p>You were gasping, shaking under me, and I have never felt more alive than in that cramped dark backseat. I did not just want to kiss you I wanted to wreck you. I am sitting here now and I can still feel the ghost of your skin on my tongue. I want you back in that breathless, messy, and completely under me state.</p>
+                            </div>
+                            <div class="letter-signature">With every beat</div>
+                        </div>
+
+                        <div class="letter chapter-panel" data-chapter="2">
+                            <div class="letter-head">
+                                <div class="letter-title">Chapter 3 — When Shopping Led to Biryani</div>
+                                <div class="letter-meta">A Proper Desi Day With You</div>
+                            </div>
+                            <div class="letter-body">
+                                <p>I still remember how excited you were that day. It was our first time shopping together, and that excitement never left your face. We took the metro together though you did not even ask me to sit with you.....Huh!</p>
+                                <p>The first thing we bought was sunglasses for you. I loved standing there while you tried them on, watching you tilt your head, look at yourself in the mirror, and then instinctively turn to me for approval. That small look you gave me half question, half trust did something to my heart. You did not overthink it. If I liked it, that was enough for you. Being trusted like that, in such a simple moment, felt strangely intimate.</p>
+                                <p>After that we went around buying little things like jhumkas, nail paint, hair clips, phone cover , watches. I held your hand while we walked through the shops and you let me help you choose everything.</p>
+                                <p>Then we went to eat biryani...our first time having it together, properly, in true desi style. And honestly it tasted so good. Maybe it was the food or maybe it was just you sitting across from me, sharing that plate, that moment. It felt simple, real, and somehow perfect.</p>
+                                <p>Later we bought a flower vase. I give you flowers every time I see you, and you love them so much. I wanted you to have a place for them...something that would stay with you even when I was not around. And then we bought the same coffee mugs, so that every sip you take, somewhere, somehow, reminds you of me… just like it reminds me of you.</p>
+                                <p>That is how the day went slow, sweet, and full of little moments that quietly turned into memories. It was not just shopping. It was connection. It was comfort. It was us. And honestly it was one of the most wholesome experiences of my life with you.</p>
+                            </div>
+                            <div class="letter-signature">Always yours</div>
+                        </div>
+
+                        <div class="letter chapter-panel" data-chapter="3">
+                            <div class="letter-head">
+                                <div class="letter-title">Chapter 4 — Saraswati Puja — Our First Together</div>
+                                <div class="letter-meta">Blessed With You</div>
+                            </div>
+                            <div class="letter-body">
+                                <p>It was on 23rd Jan our first Saraswati Puja together and even before Valentine's Day arrived, this was Bengali Valentine's Day. From the very beginning, the day already felt special.</p>
+                                <p>I remember how excited we both were. You love wearing sarees, and I had been waiting like really waiting to see you in one for the first time. You told me you needed one and a half days to get ready, and honestly, I loved every part of that process.</p>
+                                <p>It started the night before. I remember you shampooed your hair because tere ko hair straight karna tha. You were confused and asked me what to do, so I told you to try something different tahole photo asbe, new style. And you replied, "Jodi baje lage tui gaali khabi"</p>
+                                <p>I do not know why, but I genuinely like it when you yell at me like that.</p>
+                                <p>You sending me pictures and asking, "This or that" You even said, "I love it when you help me make decisions" And I loved that you trusted my choice. Watching you get ready made me feel closer to you even before the day actually arrived.</p>
+                                <p>Around 3 in the afternoon, I went to pick you up from home.And yes I was late. Very late.You got really angry, and for a moment you even thought of changing your clothes and going to sleep. I knew I had messed up. But when I finally saw you.I forgot everything.</p>
+                                <p>You looked effortless. Gorgeous. Your hair fell perfectly, the color looked amazing, and the straight hair suited you so well. Honestly everything fits you seita curly hok ba straight. I loved the smell of your shampoo....it hit me instantly. There was an aura around you like soft, confident, glowing. I was completely stunned.</p>
+                                <p>In the cab I couldn not stop myself. I told you that you looked like my ras malaai. You rolled your eyes and said, "ishhhhhh" and I smiled like an idiot</p>
+                                <p>We reached a cafe. It was veg that was our nightmare, but that did not matter at all. We were there just to click pictures of you. And yes I clicked thousands. My phone gallery is literally full of Anindita now. I did not compliment you enough that day, even though you deserved so much more. I just lost my words.</p>
+                                <p>Later we went to a restaurant and had Chinese food. We ate a lot, laughed a lot, talked nonsense, shared plates....simple things that somehow felt special just because it was us.</p>
+                                <p>In the cab afterward we were so close teasing, breathing each other in somehow we both lost in that quiet bubble where nothing else existed. We kissed and I remember I licked your full back and that HUG... yes that hug.After six dates we hugged properly for the first time. Not rushed. Not awkward. Just holding each other like we belonged there. I still remember how that hug felt. It felt like home like something clicked into place</p>
+                                <p>I dropped you home safely and when it was my turn you gave me the wrong destination. The metro was already closed so I had to take a Rapido. We joked about it endlessly, you teasing me like as always you do and both were laughing like kids.</p>
+                                <p>That day wasn't just about Saraswati Puja.</p>
+                                <p>It was about seeing you, wanting you, choosing you.</p>
+                                <p>It was about firsts of first traditional look, first real hug, first puja together.</p>
+                                <p>And somehow it became one of the most beautiful days we ever shared.</p>
+                            </div>
+                            <div class="letter-signature">Yours, always</div>
+                        </div>
+                    </div>
+
+                    <div class="chapter-controls">
+                        <button class="chapter-nav-btn" id="prevChapterBtn">Previous Chapter</button>
+                        <button class="chapter-nav-btn primary" id="nextChapterBtn">Next Chapter</button>
+                    </div>
+                    <div class="chapter-complete" id="chapterComplete">
+                        <div class="chapter-complete-title">You reached the end of the book.</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="continue-btn" id="lettersContinueBtn" onclick="nextPage()">Continue</button>
+        </div>
+    </div>
+
+<!-- Page 6: Our Soundtrack -->
+    <div class="page" id="page6">
+        <div class="content-container">
+            <div class="page-title">🎵 Our Love in Lyrics 🎵</div>
+            <div class="page-text">Every song tells a story which reminds me of you</div>
+            <div class="soundtrack-header">
+                <div class="header-left">Playlist </div>
+                <div class="header-right">Favorite Time Stamp</div>
+            </div>
+            
+            <div class="soundtrack-grid">
+                <!-- Song 1 - Horizontal Spotify-like row -->
+                <div class="song-card" data-duration="240" style="--song-color:#5a433d;">
+                    <div class="cover-wrap">
+                        <img src="Aabaad%20Barbaad.jpg" alt="Aabaad Barbaad" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Aabaad Barbaad</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 0:27</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:23</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Song 2 -->
+                <div class="song-card" data-duration="210" style="--song-color:#7b6a4f;">
+                    <div class="cover-wrap">
+                        <img src="Abhi%20Abhi.jpg" alt="Abhi Abhi" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Abhi Abhi</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:06</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:15</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Song 3 -->
+                <div class="song-card" data-duration="200" style="--song-color:#e2452a;">
+                    <div class="cover-wrap">
+                        <img src="Be%20Intehaan.jpg" alt="Be Intehaan" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Be Intehaan</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 3:07</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">0:45</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Song 4 -->
+                <div class="song-card" data-duration="240" style="--song-color:#c96a3f;">
+                    <div class="cover-wrap">
+                        <img src="Darasal.jpg" alt="Darasal" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Darasal</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:07</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">3:20</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 5 - Add more songs as needed -->
+                <div class="song-card" data-duration="220" style="--song-color:#b3532a;">
+                    <div class="cover-wrap">
+                        <img src="Deewana%20Kar%20Raha%20Hai.jpg" alt="Deewana Kar Raha Hai" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Deewana Kar Raha Hai</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 0:33</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:45</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 6 -->
+                <div class="song-card" data-duration="260" style="--song-color:#4f2a6b;">
+                    <div class="cover-wrap">
+                        <img src="Dil%20Ibaadat.jpg" alt="Dil Ibaadat" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Dil Ibaadat</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:33</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:30</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 7 -->
+                <div class="song-card" data-duration="230" style="--song-color:#3a5a7a;">
+                    <div class="cover-wrap">
+                        <img src="Gehra%20Hua%20%28From%20_Dhurandhar_%29.jpg" alt="Gehra Hua (From Dhurandhar)" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Gehra Hua</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:12</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:12</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 8 -->
+                <div class="song-card" data-duration="225" style="--song-color:#7a4a3a;">
+                    <div class="cover-wrap">
+                        <img src="Haan%20Tu%20Hain.jpg" alt="Haan Tu Hain" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Haan Tu Hain</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 0:58</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">0:58</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 9 -->
+                <div class="song-card" data-duration="245" style="--song-color:#5a2e42;">
+                    <div class="cover-wrap">
+                        <img src="Hale%20Dil.jpg" alt="Hale Dil" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Hale Dil</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:40</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:40</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 10 -->
+                <div class="song-card" data-duration="215" style="--song-color:#4a6a5a;">
+                    <div class="cover-wrap">
+                        <img src="Jab%20Tak.jpg" alt="Jab Tak" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Jab Tak</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:02</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:02</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 11 -->
+                <div class="song-card" data-duration="235" style="--song-color:#6a385a;">
+                    <div class="cover-wrap">
+                        <img src="Labon%20Ko.jpg" alt="Labon Ko" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Labon Ko</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:08</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:08</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 12 -->
+                <div class="song-card" data-duration="255" style="--song-color:#3a4a7a;">
+                    <div class="cover-wrap">
+                        <img src="Maula%20Mere%20Maula.jpg" alt="Maula Mere Maula" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Maula Mere Maula</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:48</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:48</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 13 -->
+                <div class="song-card" data-duration="220" style="--song-color:#7a6a3a;">
+                    <div class="cover-wrap">
+                        <img src="Pehli%20Nazar%20Mein.jpg" alt="Pehli Nazar Mein" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Pehli Nazar Mein</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:36</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:36</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 14 -->
+                <div class="song-card" data-duration="210" style="--song-color:#8a4a5a;">
+                    <div class="cover-wrap">
+                        <img src="Saajna.jpg" alt="Saajna" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Saajna</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 0:52</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">0:52</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 15 -->
+                <div class="song-card" data-duration="235" style="--song-color:#3a7a6a;">
+                    <div class="cover-wrap">
+                        <img src="Saanson%20Ko.jpg" alt="Saanson Ko" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Saanson Ko</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:18</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:18</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 16 -->
+                <div class="song-card" data-duration="245" style="--song-color:#6a4a8a;">
+                    <div class="cover-wrap">
+                        <img src="Saware.jpg" alt="Saware" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Saware</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:05</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:05</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 17 -->
+                <div class="song-card" data-duration="205" style="--song-color:#8a5a3a;">
+                    <div class="cover-wrap">
+                        <img src="Tera%20Chehra.jpg" alt="Tera Chehra" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Tera Chehra</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 0:50</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">0:50</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 18 -->
+                <div class="song-card" data-duration="240" style="--song-color:#4a3a7a;">
+                    <div class="cover-wrap">
+                        <img src="Tere%20Bin.jpg" alt="Tere Bin" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Tere Bin</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:12</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:12</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 19 -->
+                <div class="song-card" data-duration="235" style="--song-color:#7a3a4a;">
+                    <div class="cover-wrap">
+                        <img src="Teri%20Jhuki%20Nazar.jpg" alt="Teri Jhuki Nazar" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Teri Jhuki Nazar</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:27</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:27</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 20 -->
+                <div class="song-card" data-duration="250" style="--song-color:#3a6a7a;">
+                    <div class="cover-wrap">
+                        <img src="Tujhe%20Sochta%20Hoon.jpg" alt="Tujhe Sochta Hoon" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Tujhe Sochta Hoon</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:22</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:22</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 21 -->
+                <div class="song-card" data-duration="225" style="--song-color:#6a7a3a;">
+                    <div class="cover-wrap">
+                        <img src="Tum%20Jo%20Aaye.jpg" alt="Tum Jo Aaye" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Tum Jo Aaye</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 1:05</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">1:05</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 22 -->
+                <div class="song-card" data-duration="215" style="--song-color:#7a5a6a;">
+                    <div class="cover-wrap">
+                        <img src="Tum%20Se%20Hi.jpg" alt="Tum Se Hi" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Tum Se Hi</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 0:42</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">0:42</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Song 23 -->
+                <div class="song-card" data-duration="255" style="--song-color:#4a5a8a;">
+                    <div class="cover-wrap">
+                        <img src="Woh%20Lamhe%20Woh%20Baatein%20-%20From%20_Zeher_.jpg" alt="Woh Lamhe Woh Baatein (From Zeher)" class="song-cover">
+                    </div>
+                    <div class="song-body">
+                        <div class="song-main">
+                            <div class="song-meta">
+                                <div class="song-title">Woh Lamhe Woh Baatein (From Zeher)</div>
+                            </div>
+                            <div class="song-timestamp">Favorite moment: 2:36</div>
+                            <div class="song-controls">
+                                <div class="fav-progress" role="progressbar" aria-valuemin="0" aria-valuemax="100">
+                                    <div class="fav-progress-bar"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="song-time">
+                            <div class="song-time-label">Time</div>
+                            <div class="fav-time">2:36</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="continue-btn" onclick="nextPage()">Final Promises 🎁</button>
+        </div>
+    </div>
+
+    <!-- Page 7: Final Promises -->
+    <div class="page" id="page7">
+        <div class="content-container">
+            <div style="text-align: center;">
+                <div class="proposal-emoji">💕</div>
+                <div class="page-title">What I Choose Every Day 🎉</div>
+            </div>
+            <div class="page-text">
+                You've made me the happiest person in the world! I promise to make even the bad days feel right because we’re together. You deserve all the happiness in the universe.
+            </div>
+            
+            <div class="promise-box">
+                <h3>My Promises to You:</h3>
+                <ul>
+                    <li>To always be there on your toughest days</li>
+                    <li>To be your biggest supporter in everything you do</li>
+                    <li>To listen to you with my full heart</li>
+                    <li>To create memories together from pottery dates to exploring cafés in whichever city we are in </li>
+                    <li>To give you the first bite of every meal I eat</li>
+                    <li>To open every door for you</li>
+                    <li>To cook for you anytime even in the middle of the night</li>
+                    <li>To be the first donor whenever you need blood</li>
+                    <li>To help you get your nails done</li>
+                    <li>To hold your hand through every quiet moment, every laugh, every story</li>
+                    <li>To always be the first one to say sorry</li>
+                    <li>To always be the first one to say ily</li>
+                    <li>To be your first thought in the morning and last at night</li>
+                    <li>To love you more with each passing moment</li>
+                </ul>
+            </div>
+
+            <div class="page-text" style="font-size: 2em; margin-top: 40px; color: var(--wine-red);">
+                Happy Valentine's Day in advanceeeeeeee! 💖
+            </div>
+
+            <div style="margin-top: 30px; text-align: center; color: #555; font-size: 1.5em; font-style: italic;">
+                This is just the beginning of our forever... ✨
+                <br><br>
+                I love you more than you love your food 💕
+            </div>
+
+            <div style="margin-top: 50px; text-align: right; padding-right: 20px;">
+                <div style="font-family: 'Great Vibes', cursive; font-size: 2em; color: var(--wine-red); opacity: 0.6; font-style: italic;">
+                    besh 💕
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==========================================
+        // CONFIGURATION
+        // ==========================================
+        const YOUR_PHONE = "+916289668734";
+        const HER_PHONE = "+918100138547";
+
+        // ==========================================
+        // FLOATING HEARTS WITH NAME
+        // ==========================================
+        function createFloatingHearts() {
+            const container = document.getElementById('heartsContainer');
+            for (let i = 0; i < 25; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'heart-float';
+                heart.innerHTML = '❤️';
+                
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDelay = Math.random() * 15 + 's';
+                heart.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                container.appendChild(heart);
+            }
+        }
+
+        createFloatingHearts();
+
+        // ==========================================
+        // ATMOSPHERIC ROMANTIC ELEMENTS
+        // ==========================================
+        
+        // Create floating red hearts moving upward
+        function createAtmosphericHearts() {
+            const container = document.getElementById('floatingHeartsContainer');
+            const heartCount = 30; // Lots of hearts
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'floating-heart-bg';
+                heart.innerHTML = '❤️';
+                
+                // Random properties for variety
+                const size = 30 + Math.random() * 50; // 30-80px
+                const duration = 12 + Math.random() * 8; // 12-20s
+                const delay = Math.random() * 10; // 0-10s
+                const left = Math.random() * 100; // 0-100%
+                const drift = -50 + Math.random() * 100; // -50 to 50px
+                
+                heart.style.setProperty('--heart-size', `${size}px`);
+                heart.style.setProperty('--duration', `${duration}s`);
+                heart.style.setProperty('--delay', `${delay}s`);
+                heart.style.setProperty('--left', `${left}%`);
+                heart.style.setProperty('--drift', `${drift}px`);
+                
+                container.appendChild(heart);
+            }
+        }
+        
+        // Create falling rose petals (increased count + larger sizes)
+        function createRosePetals() {
+            const container = document.getElementById('rosePetalsContainer');
+            const petalCount = 65; // Slightly reduced number of petals
+
+            for (let i = 0; i < petalCount; i++) {
+                const petal = document.createElement('div');
+                petal.className = 'rose-petal';
+
+                // Random properties for natural movement
+                const duration = 8 + Math.random() * 12; // 8-20s
+                const delay = Math.random() * 15; // 0-15s
+                const left = Math.random() * 100; // 0-100%
+                const sway = -150 + Math.random() * 300; // -150 to 150px
+
+                // Randomize size and shape (bias toward larger petals)
+                const baseSize = 18 + Math.pow(Math.random(), 0.6) * 60; // biased bigger
+                const width = Math.floor(baseSize + Math.random() * 10);
+                const height = Math.floor(baseSize * (0.6 + Math.random() * 0.8));
+
+                petal.style.width = width + 'px';
+                petal.style.height = height + 'px';
+                petal.style.borderRadius = `${30 + Math.random() * 50}% ${5 + Math.random() * 60}% 50% 10%`;
+                petal.style.opacity = 0.5 + Math.random() * 0.5;
+
+                petal.style.setProperty('--fall-duration', `${duration}s`);
+                petal.style.setProperty('--fall-delay', `${delay}s`);
+                petal.style.setProperty('--petal-left', `${left}%`);
+                petal.style.setProperty('--sway', `${sway}px`);
+
+                // Random starting rotation for variety
+                petal.style.transform = `rotate(${Math.floor(Math.random() * 360)}deg)`;
+
+                container.appendChild(petal);
+            }
+        }
+        
+        // Initialize atmospheric elements
+        createAtmosphericHearts();
+        createRosePetals();
+
+        // ==========================================
+        // ESCAPING NO BUTTON
+        // ==========================================
+        const cuteMessages = [
+            "Wait! Think again! 🥺",
+            "Are you sure? 💕",
+            "Maybe Yes? 😊",
+            "Don't give up on me! 💖",
+            "I believe in us! ✨",
+            "Just click Yes! 🌹",
+            "Come on! 😘",
+            "Please? 🙏",
+            "Yes sounds better! 💝",
+            "I'm shy! 😳",
+            "Catch me if you can! 😄"
+        ];
+
+        let messageIndex = 0;
+        let yesClicked = false;
+        let currentPage = 0;
+        let chaptersBookCompleted = false;
+
+        // ==========================================
+        // ENVELOPE GAME LOGIC
+        // ==========================================
+        
+        const teasingMessages = [
+            { text: "Oops! Not this one 😜", emoji: "💋" },
+            { text: "Try again, you tease! 😊", emoji: "🔥" },
+            { text: "Wrong one, blushing? 😏", emoji: "😘" },
+            { text: "Getting warmer... or are you? 🌶️", emoji: "😉" },
+            { text: "I like your persistence 😏", emoji: "💕" },
+            { text: "Keep looking, baby 😌", emoji: "😏" },
+            { text: "Almost there... maybe 😄", emoji: "🎯" },
+            { text: "You're not even close! 🙈", emoji: "😂" },
+            { text: "Nope! Sweet try though 💋", emoji: "😘" },
+            { text: "Did you feel that? 👀", emoji: "💗" }
+        ];
+
+        let correctEnvelopeIndex = -1;
+        let envelopesShuffled = false;
+        let lastEnvelopeLayoutWidth = 0;
+
+        function initEnvelopeGame(force = false) {
+            const field = document.getElementById('envelopesField');
+            if (!field) return;
+            if (envelopesShuffled && !force) return;
+
+            envelopesShuffled = true;
+            field.innerHTML = '';
+
+            // Responsive sizing based on screen width
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            const isSmallMobile = screenWidth < 480;
+            const isMobile = screenWidth < 768;
+            const isTablet = screenWidth < 1024;
+            
+            let totalEnvelopes, envelopeWidth, envelopeHeight, minDistance;
+            
+            if (isSmallMobile) {
+                totalEnvelopes = 6;
+                envelopeWidth = 130;
+                envelopeHeight = 95;
+                minDistance = 90;
+            } else if (isMobile) {
+                totalEnvelopes = 8;
+                envelopeWidth = 150;
+                envelopeHeight = 110;
+                minDistance = 120;
+            } else if (isTablet) {
+                totalEnvelopes = 10;
+                envelopeWidth = 190;
+                envelopeHeight = 140;
+                minDistance = 200;
+            } else {
+                totalEnvelopes = 12;
+                envelopeWidth = 220;
+                envelopeHeight = 160;
+                minDistance = 280;
+            }
+            
+            correctEnvelopeIndex = Math.floor(Math.random() * totalEnvelopes);
+            const usedPositions = [];
+
+            // Calculate safe bounds
+            const padding = 10;
+            const topStart = 120;
+            const maxLeft = Math.max(screenWidth - envelopeWidth - padding, 0);
+            const maxTop = Math.max(screenHeight - envelopeHeight - 100, topStart);
+
+            // For small screens, use a loose grid with jitter to avoid overlap
+            const useGrid = screenWidth < 900 || screenHeight < 700;
+            let gridPositions = [];
+            if (useGrid) {
+                const cols = Math.max(2, Math.floor((screenWidth - padding * 2) / (envelopeWidth + 14)));
+                const rows = Math.max(2, Math.ceil(totalEnvelopes / cols));
+                const gridGapX = Math.max(8, Math.floor((screenWidth - padding * 2 - cols * envelopeWidth) / Math.max(1, cols - 1)));
+                const gridGapY = Math.max(12, Math.floor((screenHeight - topStart - 140 - rows * envelopeHeight) / Math.max(1, rows - 1)));
+
+                for (let r = 0; r < rows; r++) {
+                    for (let c = 0; c < cols; c++) {
+                        const leftBase = padding + c * (envelopeWidth + gridGapX);
+                        const topBase = topStart + r * (envelopeHeight + gridGapY);
+                        const jitterX = Math.max(-8, Math.min(8, (Math.random() * 16 - 8)));
+                        const jitterY = Math.max(-8, Math.min(8, (Math.random() * 16 - 8)));
+                        gridPositions.push({ left: leftBase + jitterX, top: topBase + jitterY });
+                    }
+                }
+                gridPositions = gridPositions.sort(() => Math.random() - 0.5);
+            }
+
+            for (let i = 0; i < totalEnvelopes; i++) {
+                const envelope = document.createElement('div');
+                envelope.className = 'envelope-card';
+                
+                // Random position with collision avoidance
+                let left, top, overlapping;
+                let attempts = 0;
+                do {
+                    overlapping = false;
+                    if (useGrid && gridPositions.length) {
+                        const pos = gridPositions.pop();
+                        left = pos.left;
+                        top = pos.top;
+                    } else {
+                        left = Math.max(padding, Math.min(Math.random() * maxLeft, screenWidth - envelopeWidth - padding));
+                        top = Math.max(topStart, Math.min(Math.random() * (maxTop - topStart) + topStart, screenHeight - envelopeHeight - 50));
+                    }
+
+                    // Check if too close to other envelopes
+                    for (let pos of usedPositions) {
+                        const distance = Math.sqrt(Math.pow(left - pos.left, 2) + Math.pow(top - pos.top, 2));
+                        if (distance < minDistance) {
+                            overlapping = true;
+                            break;
+                        }
+                    }
+                    attempts++;
+                } while (overlapping && attempts < 25 && usedPositions.length > 0);
+                
+                usedPositions.push({ left, top });
+                
+                // Random rotation
+                const rotation = Math.random() * 25 - 12.5;
+                
+                envelope.style.left = left + 'px';
+                envelope.style.top = top + 'px';
+                envelope.style.transform = `rotate(${rotation}deg)`;
+
+                if (i === correctEnvelopeIndex) {
+                    const msg = document.createElement('div');
+                    msg.className = 'envelope-message';
+                    msg.innerHTML = `<div class="message-emoji">💝</div><div class="message-text">THIS IS IT!</div>`;
+                    envelope.appendChild(msg);
+                } else {
+                    const randomMsg = teasingMessages[Math.floor(Math.random() * teasingMessages.length)];
+                    const msg = document.createElement('div');
+                    msg.className = 'envelope-message';
+                    msg.innerHTML = `<div class="message-emoji">${randomMsg.emoji}</div><div class="message-text">${randomMsg.text}</div>`;
+                    envelope.appendChild(msg);
+                }
+
+                envelope.onclick = (e) => selectEnvelope(e, i);
+                field.appendChild(envelope);
+            }
+        }
+
+        function handleEnvelopeResize() {
+            const width = window.innerWidth;
+            if (Math.abs(width - lastEnvelopeLayoutWidth) < 80) return;
+            lastEnvelopeLayoutWidth = width;
+            envelopesShuffled = false;
+            initEnvelopeGame(true);
+        }
+
+        function selectEnvelope(event, index) {
+            event.stopPropagation();
+            const cards = document.querySelectorAll('.envelope-card');
+            const selectedCard = cards[index];
+
+            if (selectedCard.classList.contains('revealed')) return;
+
+            selectedCard.classList.add('revealed');
+
+            if (index === correctEnvelopeIndex) {
+                // Correct envelope - show proposal modal
+                setTimeout(() => {
+                    showProposalModal();
+                }, 600);
+            } else {
+                // Wrong envelope - add pulse effect and keep playing
+                selectedCard.style.animation = 'none';
+                setTimeout(() => {
+                    selectedCard.style.animation = '';
+                }, 10);
+            }
+        }
+
+        function showProposalModal() {
+            const modal = document.getElementById('proposalModal');
+            if (modal) {
+                modal.classList.add('active');
+            }
+            
+            // Show calendar, teddy, and petals with special effect
+            setTimeout(() => {
+                document.querySelector('.calendar-card').classList.add('visible');
+                document.querySelector('.teddy-bear').classList.add('visible');
+                
+                // Show all petals
+                const petals = document.querySelectorAll('.rose-petal');
+                petals.forEach(petal => {
+                    petal.classList.add('visible');
+                });
+            }, 400);
+        }
+
+        function closeProposalModal() {
+            const modal = document.getElementById('proposalModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+        }
+
+        function unsealEnvelope(event) {
+            event.stopPropagation();
+            const sealOverlay = document.getElementById('envelopeSealOverlay');
+            if (sealOverlay) {
+                sealOverlay.classList.add('unsealed');
+            }
+        }
+
+        function initEscapingButton() {
+            const noBtn = document.querySelector('.no-btn');
+            if (!noBtn) return;
+
+            noBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                escapeButton();
+            });
+
+            noBtn.addEventListener('mouseenter', escapeButton);
+
+            document.addEventListener('touchmove', (e) => {
+                if (!noBtn || yesClicked) return;
+                const touch = e.touches[0];
+                const btnRect = noBtn.getBoundingClientRect();
+                const proximity = 80;
+                const distance = Math.sqrt(
+                    Math.pow(touch.clientX - (btnRect.left + btnRect.width/2), 2) +
+                    Math.pow(touch.clientY - (btnRect.top + btnRect.height/2), 2)
+                );
+                if (distance < proximity) {
+                    escapeButton();
+                }
+            });
+        }
+
+        function escapeButton() {
+            if (yesClicked) return;
+            const noBtn = document.querySelector('.no-btn');
+            if (!noBtn) return;
+
+            // Add escaping class for animation
+            noBtn.classList.add('escaping');
+            setTimeout(() => noBtn.classList.remove('escaping'), 300);
+
+            // Get viewport dimensions
+            const viewportWidth = window.innerWidth;
+            const viewportHeight = window.innerHeight;
+            const btnWidth = noBtn.offsetWidth;
+            const btnHeight = noBtn.offsetHeight;
+
+            // Calculate safe boundaries (with padding)
+            const padding = 20;
+            const maxX = viewportWidth - btnWidth - padding;
+            const maxY = viewportHeight - btnHeight - padding;
+
+            // Generate random position
+            const newX = Math.random() * (maxX - padding) + padding;
+            const newY = Math.random() * (maxY - padding) + padding;
+
+            // Move button to new position - NOW with fixed position
+            noBtn.style.position = 'fixed';
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+            noBtn.style.zIndex = '1000';
+
+            showCuteMessage(newX + btnWidth/2, newY);
+        }
+
+        function showCuteMessage(x, y) {
+            const message = document.createElement('div');
+            message.className = 'cute-message';
+            message.textContent = cuteMessages[messageIndex];
+            message.style.left = x + 'px';
+            message.style.top = y + 'px';
+            message.style.transform = 'translateX(-50%)';
+            document.body.appendChild(message);
+            messageIndex = (messageIndex + 1) % cuteMessages.length;
+            setTimeout(() => message.remove(), 2000);
+        }
+
+        function handleNo() {
+            escapeButton();
+        }
+
+        // ==========================================
+        // HANDLE YES
+        // ==========================================
+        function handleYes() {
+            console.log('✅ YES button clicked!');
+            if (yesClicked) {
+                console.log('⚠️ Already clicked yes, ignoring');
+                return;
+            }
+            yesClicked = true;
+
+            // Close proposal modal
+            const modal = document.getElementById('proposalModal');
+            if (modal) {
+                modal.classList.remove('active');
+            }
+
+            // Send notifications
+            sendNotifications();
+
+            // Start music
+            const music = document.getElementById('bgMusic');
+            if (music) {
+                music.volume = 0.3;
+                music.play().catch(e => console.log('Music error:', e));
+            }
+
+            // Show navigation and transition
+            setTimeout(() => {
+                initNavigation();
+                document.getElementById('navDots').style.display = 'block';
+                goToPage(1);
+                console.log('Transitioned to page 1');
+            }, 600);
+        }
+
+        function sendNotifications() {
+            const timestamp = new Date().toLocaleString('en-IN', { 
+                timeZone: 'Asia/Kolkata',
+                dateStyle: 'full',
+                timeStyle: 'short'
+            });
+            
+            const yourMessage = encodeURIComponent(
+                `🎉 Anindita Said YES! 💕\n\n` +
+                `Your Valentine's proposal was accepted!\n\n` +
+                `Time: ${timestamp}\n\n` +
+                `Congratulations! 🌹✨`
+            );
+            
+            const herMessage = encodeURIComponent(
+                `💖 Thank You! 💖\n\n` +
+                `You just made my heart skip a beat by saying YES! ❤️\n\n` +
+                `I can't wait for our first special Valentine's Day together.\n\n` +
+                `Date: February 14, 2026\n` +
+                `Get ready for the most romantic evening! 🌹✨\n\n` +
+                `With all my love 💕`
+            );
+            
+            window.open(`https://wa.me/${YOUR_PHONE}?text=${yourMessage}`, '_blank');
+            setTimeout(() => {
+                window.open(`https://wa.me/${HER_PHONE}?text=${herMessage}`, '_blank');
+            }, 500);
+        }
+
+        // ==========================================
+        // INTERMEDIATE PAGE MODALS
+        // ==========================================
+        function showTooLate() {
+            document.getElementById('tooLateModal').classList.add('active');
+        }
+
+        function closeTooLate() {
+            document.getElementById('tooLateModal').classList.remove('active');
+            nextPage(); // Go to invitation
+        }
+
+        function showThatsMyGirl() {
+            document.getElementById('thatsMyGirlModal').classList.add('active');
+        }
+
+        function closeThatsMyGirl() {
+            document.getElementById('thatsMyGirlModal').classList.remove('active');
+            nextPage(); // Go to invitation
+        }
+
+        // ==========================================
+        // GIFT BOX REVEAL
+        // ==========================================
+        function revealPhoto(card, index) {
+            if (!card.classList.contains('revealed')) {
+                card.classList.add('revealed');
+            }
+        }
+
+        // ==========================================
+        // SECRET REVEAL
+        // ==========================================
+        // ==========================================
+        // NAVIGATION
+        // ==========================================
+        const totalPages = 8;
+
+        function initNavigation() {
+            const navDots = document.getElementById('navDots');
+            navDots.innerHTML = '';
+            for (let i = 1; i < totalPages; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'nav-dot';
+                if (i === 1) dot.classList.add('active');
+                dot.onclick = () => goToPage(i);
+                navDots.appendChild(dot);
+            }
+        }
+
+        function goToPage(pageNum) {
+            document.getElementById('page' + currentPage).classList.remove('active');
+            currentPage = pageNum;
+            document.getElementById('page' + currentPage).classList.add('active');
+            
+            const dots = document.querySelectorAll('.nav-dot');
+            dots.forEach((dot, index) => {
+                dot.classList.toggle('active', index + 1 === currentPage);
+            });
+
+            // Create floating hearts when on page 1
+            if (pageNum === 1) {
+                createGoodChoiceHearts();
+            }
+        }
+
+        // ==========================================
+        // CREATE FLOATING HEARTS FOR GOOD CHOICE PAGE
+        // ==========================================
+        function createGoodChoiceHearts() {
+            const page1 = document.getElementById('page1');
+            
+            // Clear existing hearts
+            const existingHearts = page1.querySelectorAll('.good-choice-heart-float');
+            existingHearts.forEach(h => h.remove());
+
+            // Create new floating hearts
+            const heartCount = 15;
+            
+            for (let i = 0; i < heartCount; i++) {
+                const heart = document.createElement('div');
+                heart.className = 'good-choice-heart-float';
+                heart.innerHTML = '❤️';
+                
+                // Random properties
+                const duration = 6 + Math.random() * 4; // 6-10s
+                const delay = Math.random() * 8; // 0-8s
+                const left = Math.random() * 100; // 0-100%
+                const drift = -80 + Math.random() * 160; // -80 to 80px
+                
+                heart.style.setProperty('--duration', `${duration}s`);
+                heart.style.setProperty('--delay', `${delay}s`);
+                heart.style.setProperty('--left', `${left}%`);
+                heart.style.setProperty('--drift', `${drift}px`);
+                heart.style.left = `${left}%`;
+                heart.style.animationDelay = `${delay}s`;
+                heart.style.animationDuration = `${duration}s`;
+                
+                page1.appendChild(heart);
+            }
+        }
+
+        
+
+        function nextPage() {
+            if (currentPage < totalPages - 1) {
+                goToPage(currentPage + 1);
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (yesClicked) {
+                if (e.key === 'ArrowRight' && currentPage < totalPages - 1) nextPage();
+                else if (e.key === 'ArrowLeft' && currentPage > 1) goToPage(currentPage - 1);
+            }
+        });
+
+        // Initialize
+        // ==========================================
+        // Soundtrack UI initializer
+        // ==========================================
+        function initSoundtrackUI() {
+            const cards = document.querySelectorAll('.song-card');
+            cards.forEach(card => {
+                const tsEl = card.querySelector('.song-timestamp');
+                const favBar = card.querySelector('.fav-progress-bar');
+                const favTimeEl = card.querySelector('.fav-time');
+                const progressWrap = card.querySelector('.fav-progress');
+                if (!tsEl || !favBar || !favTimeEl) return;
+
+                const match = tsEl.textContent.match(/(\d{1,2}:\d{2})/);
+                const timeStr = match ? match[1] : null;
+                const durationAttr = card.getAttribute('data-duration');
+                const duration = durationAttr ? parseFloat(durationAttr) : 240;
+
+                function toSeconds(t) {
+                    if (!t) return 0;
+                    const parts = t.split(':').map(Number);
+                    return parts.length === 2 ? parts[0]*60 + parts[1] : Number(t);
+                }
+
+                const seconds = toSeconds(timeStr);
+                const pct = Math.max(0, Math.min(100, (seconds / Math.max(1, duration)) * 100));
+                favBar.style.width = pct + '%';
+                if (timeStr) favTimeEl.textContent = timeStr;
+                if (progressWrap) progressWrap.setAttribute('aria-valuenow', Math.round(pct));
+            });
+        }
+
+        // ==========================================
+        // Chapter Book (Love Letters)
+        // ==========================================
+        function initChapterBook() {
+            const toc = document.getElementById('chapterToc');
+            const reader = document.getElementById('chapterReader');
+            if (!toc || !reader) return;
+
+            const startBtn = document.getElementById('startChaptersBtn');
+            const backBtn = document.getElementById('backToTocBtn');
+            const prevBtn = document.getElementById('prevChapterBtn');
+            const nextBtn = document.getElementById('nextChapterBtn');
+            const continueBtn = document.getElementById('lettersContinueBtn');
+            const completeNote = document.getElementById('chapterComplete');
+            const chapterPanels = Array.from(document.querySelectorAll('.chapter-panel'));
+            const tocItems = Array.from(document.querySelectorAll('.toc-item'));
+
+            let chapterIndex = 0;
+            let chaptersUnlocked = 0;
+
+            const total = chapterPanels.length;
+            const totalEl = document.getElementById('chapterTotal');
+            if (totalEl) totalEl.textContent = total;
+
+            function showToc() {
+                toc.classList.remove('is-hidden');
+                reader.classList.add('is-hidden');
+            }
+
+            function showReader() {
+                toc.classList.add('is-hidden');
+                reader.classList.remove('is-hidden');
+            }
+
+            function updateToc() {
+                tocItems.forEach((item, idx) => {
+                    const locked = idx > chaptersUnlocked;
+                    item.disabled = locked;
+                    item.classList.toggle('locked', locked);
+                    item.classList.toggle('unlocked', !locked);
+                    item.classList.toggle('active', idx === chapterIndex);
+                });
+            }
+
+            function updateControls() {
+                if (prevBtn) prevBtn.disabled = chapterIndex === 0;
+                if (!nextBtn) return;
+                nextBtn.textContent = chapterIndex >= total - 1 ? 'Finish Book' : 'Next Chapter';
+            }
+
+            function setChapter(index) {
+                chapterIndex = index;
+                chapterPanels.forEach((panel, idx) => {
+                    panel.classList.toggle('active', idx === chapterIndex);
+                });
+                const activePanel = chapterPanels[chapterIndex];
+                if (activePanel) {
+                    activePanel.classList.add('turning');
+                    setTimeout(() => activePanel.classList.remove('turning'), 650);
+                }
+                const currentEl = document.getElementById('chapterCurrent');
+                if (currentEl) currentEl.textContent = chapterIndex + 1;
+                if (completeNote) completeNote.classList.remove('show');
+                updateControls();
+                updateToc();
+            }
+
+            function finishBook() {
+                chaptersBookCompleted = true;
+                if (completeNote) completeNote.classList.add('show');
+                if (continueBtn) continueBtn.classList.add('show');
+            }
+
+            if (startBtn) {
+                startBtn.addEventListener('click', () => {
+                    showReader();
+                    setChapter(0);
+                });
+            }
+
+            if (backBtn) {
+                backBtn.addEventListener('click', () => {
+                    showToc();
+                    updateToc();
+                });
+            }
+
+            tocItems.forEach((item) => {
+                item.addEventListener('click', () => {
+                    const idx = parseInt(item.getAttribute('data-chapter') || '0', 10);
+                    if (Number.isNaN(idx) || idx > chaptersUnlocked) return;
+                    showReader();
+                    setChapter(idx);
+                });
+            });
+
+            if (prevBtn) {
+                prevBtn.addEventListener('click', () => {
+                    if (chapterIndex > 0) setChapter(chapterIndex - 1);
+                });
+            }
+
+            if (nextBtn) {
+                nextBtn.addEventListener('click', () => {
+                    if (chapterIndex < total - 1) {
+                        chaptersUnlocked = Math.max(chaptersUnlocked, chapterIndex + 1);
+                        setChapter(chapterIndex + 1);
+                        return;
+                    }
+                    finishBook();
+                });
+            }
+
+            if (continueBtn) continueBtn.classList.remove('show');
+            showToc();
+            setChapter(0);
+        }
+
+        window.addEventListener('load', () => {
+            initEscapingButton();
+            initEnvelopeGame();
+            initSoundtrackUI();
+            initChapterBook();
+            const zoomNote = document.getElementById('zoomNote');
+            if (zoomNote) zoomNote.classList.add('show');
+        });
+
+        window.addEventListener('resize', () => {
+            clearTimeout(window.__envelopeResizeTimer);
+            window.__envelopeResizeTimer = setTimeout(handleEnvelopeResize, 200);
+        });
+
+        function dismissZoomNote() {
+            const zoomNote = document.getElementById('zoomNote');
+            if (zoomNote) zoomNote.classList.remove('show');
+        }
+
+    </script>
+</body>
+</html>
